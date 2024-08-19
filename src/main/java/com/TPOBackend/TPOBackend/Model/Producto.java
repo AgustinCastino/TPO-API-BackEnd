@@ -90,4 +90,12 @@ public class Producto {
     public void setDestacado(boolean destacado) {
         this.destacado = destacado;
     }
+
+    @Override
+    public String toString() {
+        return "Producto [name=" + name + ", category=" + category + ", description=" + description + ", stock=" + stock
+                + ", price=" + price + "]";
+    }
+
+    
 }

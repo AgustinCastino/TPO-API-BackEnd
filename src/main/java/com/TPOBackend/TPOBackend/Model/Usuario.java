@@ -1,5 +1,6 @@
 package com.TPOBackend.TPOBackend.Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Usuario {
@@ -9,6 +10,7 @@ public class Usuario {
     private Date fechaNacimiento;
     private String nombre;
     private String apellido;
+    private ArrayList<Compra> comprasUsuario;
     private boolean logeado;
 
     public Usuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) {
@@ -19,8 +21,18 @@ public class Usuario {
         this.nombre = nombre;
         this.apellido = apellido;
         this.logeado = false;
+        this.comprasUsuario = new ArrayList<Compra>();
     }
 
+    public ArrayList<Compra> getComprasUsuario(){
+        return comprasUsuario;
+    }
+
+    public void mostrarCompras(){
+        for (Compra compra : comprasUsuario) {
+            System.out.println(compra);
+        }
+    }
 
     public String getContrasena() {
         return contrasena;
