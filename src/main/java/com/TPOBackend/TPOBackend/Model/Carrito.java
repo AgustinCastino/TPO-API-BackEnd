@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Carrito {
 
-    private List<Producto> productos;
+    private ArrayList<Producto> productos;
 
     public Carrito(){
         productos = new ArrayList<>();
@@ -15,6 +15,10 @@ public class Carrito {
         // Validar que los productos esten disponibles
 
         return true;
+    }
+
+    public ArrayList<Producto> getProductos(){
+        return this.productos;
     }
 
     private boolean validarStock(Producto producto){
@@ -31,6 +35,8 @@ public class Carrito {
         return true;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Carrito [productos=" + productos + "]";
+    }
 }
