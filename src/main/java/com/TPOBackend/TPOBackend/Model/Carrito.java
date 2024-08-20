@@ -9,14 +9,10 @@ public class Carrito {
     public Carrito(){
         productos = new ArrayList<>();
     }
-    public boolean agregarProducto(Producto producto){
+    public boolean confirmarCarrito(List<Producto> productos){
 
-        boolean hayStock = this.validarStock(producto);
-
-        if(hayStock){
-            productos.add(producto);
-        }
-
+        // El carrito recibe un array con todos los productos
+        // Validar que los productos esten disponibles
 
         return true;
     }
