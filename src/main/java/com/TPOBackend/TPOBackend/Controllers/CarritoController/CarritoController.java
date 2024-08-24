@@ -1,7 +1,7 @@
 package com.TPOBackend.TPOBackend.Controllers.CarritoController;
 
-import com.TPOBackend.TPOBackend.Model.Carrito;
-import com.TPOBackend.TPOBackend.Model.Producto;
+import com.TPOBackend.TPOBackend.Service.Carrito;
+import com.TPOBackend.TPOBackend.Service.Producto;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
