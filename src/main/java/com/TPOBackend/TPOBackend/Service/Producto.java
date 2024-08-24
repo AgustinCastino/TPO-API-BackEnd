@@ -1,4 +1,4 @@
-package com.TPOBackend.TPOBackend.Model;
+package com.TPOBackend.TPOBackend.Service;
 
 public class Producto {
     private int id;

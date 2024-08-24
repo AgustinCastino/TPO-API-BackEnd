@@ -1,9 +1,15 @@
-package com.TPOBackend.TPOBackend.Model;
+package com.TPOBackend.TPOBackend.Service;
+
+import com.TPOBackend.TPOBackend.Repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+@Service
 public class Usuario {
+    private int id = 0;
+    private UserRepository userRepository;
     private String nombreUsuario;
     private String mail;
     private String contrasena;
@@ -14,6 +20,7 @@ public class Usuario {
     private boolean logeado;
 
     public Usuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) {
+        this.id++;
         this.nombreUsuario = nombreUsuario;
         this.mail = mail;
         this.contrasena = contrasena;
@@ -22,6 +29,7 @@ public class Usuario {
         this.apellido = apellido;
         this.logeado = false;
         this.comprasUsuario = new ArrayList<Compra>();
+        this.userRepository = new UserRepository();
     }
 
     public ArrayList<Compra> getComprasUsuario(){
@@ -32,6 +40,26 @@ public class Usuario {
         for (Compra compra : comprasUsuario) {
             System.out.println(compra);
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void setComprasUsuario(ArrayList<Compra> comprasUsuario) {
+        this.comprasUsuario = comprasUsuario;
     }
 
     public String getContrasena() {
@@ -94,12 +122,22 @@ public class Usuario {
         return this.contrasena.equals(contrasena);
     }
 
-    public boolean iniciarSesion(String identificador, String contrasena){
-        if (this.mail.equals(identificador) || this.nombreUsuario.equals(identificador) && this.contrasena.equals(contrasena)) {
+   /* public boolean iniciarSesion(Usuario usuario){
+        if (usuario.getMail().equals(identificador) || this.nombreUsuario.equals(identificador) && this.contrasena.equals(contrasena)) {
             this.logeado = true;
             return true;
         }
         return false;
+    }*/
+
+    public Usuario registrarUsuario(Usuario usuario) throws Exception {
+        Usuario usuarioExistente = userRepository.encontrarPorNombreUusario(usuario.getNombreUsuario()).orElseThrow(() -> new Exception("Ocurrio un error"));
+        Usuario mailExistente = userRepository.encontrarPorMail(usuario.getMail()).orElseThrow(() -> new Exception("Ocurrio un error"));
+
+        Usuario nuevoUsuario = new Usuario(usuario.getNombreUsuario(),usuario.getMail(), usuario.getContrasena(), usuario.getFechaNacimiento(), usuario.getNombre(), usuario.getApellido());
+        this.userRepository.setUsuarios(nuevoUsuario);
+        return nuevoUsuario;
+
     }
 
     public void cerrarSesion(){
