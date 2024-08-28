@@ -1,7 +1,7 @@
 package com.TPOBackend.TPOBackend.Repository;
 
 
-import com.TPOBackend.TPOBackend.Service.Usuario;
+import com.TPOBackend.TPOBackend.Entity.Usuario;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -32,4 +32,15 @@ public class UserRepository {
     public Optional<Usuario> encontrarPorMail(String mail){
         return usuarios.stream().filter(usuario -> usuario.getMail().equals(mail)).findFirst();
     }
+
+    public String encontrarContrasenaPorUsuario(String nombreUsuario){
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNombreUsuario().equals(nombreUsuario)){
+                return usuario.getContrasena();
+            }
+        }
+        return null;
+
+    }
+
 }

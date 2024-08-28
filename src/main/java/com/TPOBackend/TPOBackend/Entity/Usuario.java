@@ -1,6 +1,6 @@
-package com.TPOBackend.TPOBackend.Service;
+package com.TPOBackend.TPOBackend.Entity;
 
-import com.TPOBackend.TPOBackend.Repository.UserRepository;
+import com.TPOBackend.TPOBackend.Service.Compra;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,8 +8,8 @@ import java.util.Date;
 
 @Service
 public class Usuario {
+
     private int id = 0;
-    private UserRepository userRepository;
     private String nombreUsuario;
     private String mail;
     private String contrasena;
@@ -29,18 +29,8 @@ public class Usuario {
         this.apellido = apellido;
         this.logeado = false;
         this.comprasUsuario = new ArrayList<Compra>();
-        this.userRepository = new UserRepository();
     }
 
-    public ArrayList<Compra> getComprasUsuario(){
-        return comprasUsuario;
-    }
-
-    public void mostrarCompras(){
-        for (Compra compra : comprasUsuario) {
-            System.out.println(compra);
-        }
-    }
 
     public int getId() {
         return id;
@@ -48,14 +38,6 @@ public class Usuario {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public UserRepository getUserRepository() {
-        return userRepository;
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
     }
 
     public void setComprasUsuario(ArrayList<Compra> comprasUsuario) {
@@ -118,31 +100,7 @@ public class Usuario {
         this.logeado = logeado;
     }
 
-    public boolean validarContrasena(String contrasena){
-        return this.contrasena.equals(contrasena);
-    }
 
-   /* public boolean iniciarSesion(Usuario usuario){
-        if (usuario.getMail().equals(identificador) || this.nombreUsuario.equals(identificador) && this.contrasena.equals(contrasena)) {
-            this.logeado = true;
-            return true;
-        }
-        return false;
-    }*/
-
-    public Usuario registrarUsuario(Usuario usuario) throws Exception {
-        Usuario usuarioExistente = userRepository.encontrarPorNombreUusario(usuario.getNombreUsuario()).orElseThrow(() -> new Exception("Ocurrio un error"));
-        Usuario mailExistente = userRepository.encontrarPorMail(usuario.getMail()).orElseThrow(() -> new Exception("Ocurrio un error"));
-
-        Usuario nuevoUsuario = new Usuario(usuario.getNombreUsuario(),usuario.getMail(), usuario.getContrasena(), usuario.getFechaNacimiento(), usuario.getNombre(), usuario.getApellido());
-        this.userRepository.setUsuarios(nuevoUsuario);
-        return nuevoUsuario;
-
-    }
-
-    public void cerrarSesion(){
-        this.logeado=false;
-    }
 
 
 }
