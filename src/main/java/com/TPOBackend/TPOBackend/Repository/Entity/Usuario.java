@@ -1,11 +1,10 @@
-package com.TPOBackend.TPOBackend.Entity;
+package com.TPOBackend.TPOBackend.Repository.Entity;
 
-import com.TPOBackend.TPOBackend.Service.Compra;
+import com.TPOBackend.TPOBackend.Service.CompraService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 @Service
 public class Usuario {
 
@@ -16,7 +15,7 @@ public class Usuario {
     private Date fechaNacimiento;
     private String nombre;
     private String apellido;
-    private ArrayList<Compra> comprasUsuario;
+    private ArrayList<CompraService> comprasUsuario;
     private boolean logeado;
 
     public Usuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) {
@@ -28,7 +27,7 @@ public class Usuario {
         this.nombre = nombre;
         this.apellido = apellido;
         this.logeado = false;
-        this.comprasUsuario = new ArrayList<Compra>();
+        this.comprasUsuario = new ArrayList<CompraService>();
     }
 
 
@@ -40,7 +39,7 @@ public class Usuario {
         this.id = id;
     }
 
-    public void setComprasUsuario(ArrayList<Compra> comprasUsuario) {
+    public void setComprasUsuario(ArrayList<CompraService> comprasUsuario) {
         this.comprasUsuario = comprasUsuario;
     }
 

@@ -1,7 +1,7 @@
 package com.TPOBackend.TPOBackend.Service;
 
 import com.TPOBackend.TPOBackend.Repository.UserRepository;
-import com.TPOBackend.TPOBackend.Entity.Usuario;
+import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;

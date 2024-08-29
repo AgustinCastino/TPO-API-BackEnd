@@ -1,6 +1,7 @@
 package com.TPOBackend.TPOBackend.Controllers.CatalogoProductoController;
 
 import com.TPOBackend.TPOBackend.Repository.CatalogoRepository;
+import com.TPOBackend.TPOBackend.Service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.TPOBackend.TPOBackend.Service.Producto;
 import java.util.ArrayList;
 
 @RestController
@@ -19,29 +19,29 @@ public class CatalogoProductoController {
     private CatalogoRepository catalogoRepository;
 
     @GetMapping("/productos")
-    public ResponseEntity<ArrayList<Producto>> obtenerProductos(){
+    public ResponseEntity<ArrayList<ProductoService>> obtenerProductos(){
         return new ResponseEntity<>(catalogoRepository.getProductos(), HttpStatus.OK);
     }
 
     @PostMapping("/productos")
-    public ResponseEntity<Producto> agregarProducto(Producto producto){
+    public ResponseEntity<ProductoService> agregarProducto(ProductoService producto){
         catalogoRepository.setProductos(producto);
         return new ResponseEntity<>(producto, HttpStatus.CREATED);
     }
 
     @GetMapping("/productos/{id}")
-    public ResponseEntity<Producto> obtenerProductoPorId(int id){
+    public ResponseEntity<ProductoService> obtenerProductoPorId(int id){
         return new ResponseEntity<>(catalogoRepository.encontrarPorId(id), HttpStatus.OK);
     }
 
     @PostMapping("/productos/{id}")
-    public ResponseEntity<Producto> modificarProducto(int id, Producto producto){
+    public ResponseEntity<ProductoService> modificarProducto(int id, ProductoService producto){
         catalogoRepository.modificarProducto(id, producto);
         return new ResponseEntity<>(producto, HttpStatus.OK);
     }
 
     @PostMapping("/productos/{id}/favorito")
-    public ResponseEntity<Producto> productoFavorito(int id){
+    public ResponseEntity<ProductoService> productoFavorito(int id){
         catalogoRepository.productoFavorito(id);
         return new ResponseEntity<>(catalogoRepository.encontrarPorId(id), HttpStatus.OK);
     }
@@ -53,9 +53,9 @@ public class CatalogoProductoController {
     }
 
     @GetMapping("/productos/favoritos")
-    public ResponseEntity<ArrayList<Producto>> obtenerProductosFavoritos(){
-        ArrayList<Producto> productosFavoritos = new ArrayList<>();
-        for (Producto producto : catalogoRepository.getProductos()) {
+    public ResponseEntity<ArrayList<ProductoService>> obtenerProductosFavoritos(){
+        ArrayList<ProductoService> productosFavoritos = new ArrayList<>();
+        for (ProductoService producto : catalogoRepository.getProductos()) {
             if(producto.isInFavorites()){
                 productosFavoritos.add(producto);
             }
@@ -64,9 +64,9 @@ public class CatalogoProductoController {
     }
 
     @GetMapping("/productos/vistos")
-    public ResponseEntity<ArrayList<Producto>> obtenerProductosVistos(){
-        ArrayList<Producto> productosVistos = new ArrayList<>();
-        for (Producto producto : catalogoRepository.getProductos()) {
+    public ResponseEntity<ArrayList<ProductoService>> obtenerProductosVistos(){
+        ArrayList<ProductoService> productosVistos = new ArrayList<>();
+        for (ProductoService producto : catalogoRepository.getProductos()) {
             if(producto.isVisto()){
                 productosVistos.add(producto);
             }
@@ -75,9 +75,9 @@ public class CatalogoProductoController {
     }
 
     @GetMapping("/productos/destacados")
-    public ResponseEntity<ArrayList<Producto>> obtenerProductosDestacados(){
-        ArrayList<Producto> productosDestacados = new ArrayList<>();
-        for (Producto producto : catalogoRepository.getProductos()) {
+    public ResponseEntity<ArrayList<ProductoService>> obtenerProductosDestacados(){
+        ArrayList<ProductoService> productosDestacados = new ArrayList<>();
+        for (ProductoService producto : catalogoRepository.getProductos()) {
             if(producto.isDestacado()){
                 productosDestacados.add(producto);
             }

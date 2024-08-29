@@ -1,4 +1,4 @@
-package com.TPOBackend.TPOBackend.Entity;
+package com.TPOBackend.TPOBackend.Repository.Entity;
 
 public class UsuarioInicioSesion {
     private String identificador;

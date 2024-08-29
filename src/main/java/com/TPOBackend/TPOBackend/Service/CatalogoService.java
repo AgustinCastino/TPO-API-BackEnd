@@ -1,6 +1,6 @@
 package com.TPOBackend.TPOBackend.Service;
 
-public class Catalogo {
+public class CatalogoService {
 
     
 }

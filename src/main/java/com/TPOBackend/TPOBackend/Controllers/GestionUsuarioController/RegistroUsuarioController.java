@@ -1,8 +1,8 @@
 package com.TPOBackend.TPOBackend.Controllers.GestionUsuarioController;
 
 import com.TPOBackend.TPOBackend.Service.UsuarioService;
-import com.TPOBackend.TPOBackend.Entity.Usuario;
-import com.TPOBackend.TPOBackend.Entity.UsuarioInicioSesion;
+import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
+import com.TPOBackend.TPOBackend.Repository.Entity.UsuarioInicioSesion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
