@@ -1,7 +1,7 @@
 package com.TPOBackend.TPOBackend.Repository;
 
 
-import com.TPOBackend.TPOBackend.Entity.Usuario;
+import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
