@@ -1,6 +1,8 @@
 package com.TPOBackend.TPOBackend.Service;
 
-@service
+import org.springframework.stereotype.Service;
+
+@Service
 public class Producto {
     private int id;
     private String name;
