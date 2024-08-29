@@ -2,7 +2,7 @@ package com.TPOBackend.TPOBackend.Service;
 
 import java.util.Date;
 
-public class Compra {
+public class CompraService {
     
     private int idCompra = 0;
     private Date fechaCompra;
@@ -10,7 +10,7 @@ public class Compra {
 
     
     
-    public Compra(int idCompra, Date fechaCompra, CarritoService carritoCompra) {
+    public CompraService(int idCompra, Date fechaCompra, CarritoService carritoCompra) {
         this.idCompra ++;
         this.fechaCompra = fechaCompra;
         this.carritoCompra = carritoCompra;

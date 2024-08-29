@@ -1,49 +1,27 @@
 package com.TPOBackend.TPOBackend.Service;
 import com.TPOBackend.TPOBackend.Repository.CarritoRepository;
+import com.TPOBackend.TPOBackend.Repository.Entity.Carrito;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
-
-public class Carrito {
-
-    private ArrayList<Producto> productos;
-    private int idUsuario;
+@Service
+public class CarritoService {
 
     @Autowired
     private CarritoRepository carritoRepository;
 
-    public Carrito(){
-        productos = new ArrayList<>();
-    }
-    public void agregarProducto(int usuarioId, int productoId){
-
-        // El carrito recibe un array con todos los productos
-        // Validar que los productos esten disponibles
-
-
+    public Carrito agregarProducto(int idUsuario, int idProducto) throws Exception{
+        int idCarrito = 1; // Se hardcodea pero deberia buscar el id del carrito del user que llega por parametro
+        Carrito carrito = carritoRepository.findById(idCarrito).orElseThrow(()-> new Exception("No se encontró el carrito"));
+        return carrito;
     }
 
-    public ArrayList<Producto> getProductos(){
-        return this.productos;
+    public Carrito eliminarProducto(int idUsuario, int idProducto) throws Exception{
+        int idCarrito = 1; // Se hardcodea pero deberia buscar el id del carrito del user que llega por parametro
+        Carrito carrito = carritoRepository.findById(idCarrito).orElseThrow(()-> new Exception("No se encontró el carrito"));
+        return carrito;
     }
 
-    private boolean validarStock(Producto producto){
-        return true;
-    }
-
-    public boolean EliminarProducto(int idProducto){
-        boolean productoBorrado = productos.removeIf(producto -> producto.getId() == idProducto);
-
-        return productoBorrado;
-    }
-
-    public boolean vaciarCarrito(){
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Carrito [productos=" + productos + "]";
-    }
 }

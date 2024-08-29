@@ -3,7 +3,7 @@ package com.TPOBackend.TPOBackend.Service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Producto {
+public class ProductoService {
     private int id;
     private String name;
     private String category;
@@ -14,7 +14,7 @@ public class Producto {
     private boolean visto;
     private boolean destacado;
 
-    public Producto(int id, String name, String category, String description, int stock, double price, boolean inFavorites, boolean visto) {
+    public ProductoService(int id, String name, String category, String description, int stock, double price, boolean inFavorites, boolean visto) {
         this.id = id;
         this.name = name;
         this.category = category;

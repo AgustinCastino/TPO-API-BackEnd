@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-public class Publicacion {
+public class PublicacionService {
     private int idPublicacion;
     private String nombrePublicacion;
     private String descripcionPublicacion;
@@ -16,7 +16,7 @@ public class Publicacion {
 
     private static int contadorID = 0;
 
-    public Publicacion(String nombrePublicacion, int stock , float precioPublicacion, String descripcionPublicacion, List <String> imagenPublicacion, String categoriaPublicacion) {
+    public PublicacionService(String nombrePublicacion, int stock , float precioPublicacion, String descripcionPublicacion, List <String> imagenPublicacion, String categoriaPublicacion) {
         this.nombrePublicacion = nombrePublicacion;
         this.stock = stock;
         this.precioPublicacion = precioPublicacion;
