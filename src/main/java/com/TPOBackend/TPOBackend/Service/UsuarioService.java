@@ -3,6 +3,8 @@ package com.TPOBackend.TPOBackend.Service;
 import com.TPOBackend.TPOBackend.Repository.UserRepository;
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import org.springframework.stereotype.Service;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.Date;
@@ -24,25 +26,17 @@ public class UsuarioService {
         this.userRepository = userRepository;
     }
 
-    public boolean iniciarSesion(String nombreUsuario, String contrasena) throws UserPrincipalNotFoundException {
-        boolean flag = false;
-        Usuario usuarioExistente = userRepository.encontrarPorNombreUusario(nombreUsuario).orElseThrow(() -> new UserPrincipalNotFoundException("Usuario no econtrado"));
-
-        if (contrasena.equals(usuarioExistente.getContrasena())){
-            flag = true;
-            usuarioExistente.setLogeado(true);
-        }
-
-        return flag;
-
+    public Usuario iniciarSesion(String identificador, String contrasena) throws Exception {
+        Usuario usuarioExistente = userRepository.findByIdentificadorYContrasena(identificador, contrasena).orElseThrow(() -> new Exception("El usuario o la contraseña son incorrectos"));
+        return usuarioExistente;
     }
 
+    
     public Usuario registrarUsuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) throws Exception {
-        Usuario usuarioExistente = userRepository.encontrarPorNombreUusario(nombreUsuario).orElseThrow(() -> new Exception("Ocurrio un error"));
-        Usuario mailExistente = userRepository.encontrarPorMail(mail).orElseThrow(() -> new Exception("Ocurrio un error"));
-
+        Usuario usuarioExistente = userRepository.findByNombreUsuario(nombreUsuario).orElseThrow(() -> new Exception("El nombre de usuario ya esta ocupado"));
+        Usuario mailExistente = userRepository.findByMail(mail).orElseThrow(() -> new Exception("El mail que ingreso ya esta en uso"));
         Usuario nuevoUsuario = new Usuario(nombreUsuario, mail, contrasena, fechaNacimiento, nombre, apellido);
-        this.userRepository.setUsuarios(nuevoUsuario);
+        this.userRepository.save(nuevoUsuario);
         return nuevoUsuario;
 
     }

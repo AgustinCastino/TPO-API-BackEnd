@@ -1,14 +1,20 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
 import com.TPOBackend.TPOBackend.Service.CompraService;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
-@Service
+@Entity
 public class Usuario {
 
-    private int id = 0;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String nombreUsuario;
     private String mail;
     private String contrasena;
@@ -19,7 +25,6 @@ public class Usuario {
     private boolean logeado;
 
     public Usuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) {
-        this.id++;
         this.nombreUsuario = nombreUsuario;
         this.mail = mail;
         this.contrasena = contrasena;
@@ -98,8 +103,5 @@ public class Usuario {
     public void setLogeado(boolean logeado) {
         this.logeado = logeado;
     }
-
-
-
 
 }
