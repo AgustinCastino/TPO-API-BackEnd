@@ -14,7 +14,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/usuario")
-public class GesstionUsuarioController {
+public class GestionUsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
