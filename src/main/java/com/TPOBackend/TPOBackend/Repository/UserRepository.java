@@ -2,45 +2,28 @@ package com.TPOBackend.TPOBackend.Repository;
 
 
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.jta.UserTransactionAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
 @Repository
-public class UserRepository {
-    private final ArrayList<Usuario> usuarios = new ArrayList<>();
+public interface UserRepository extends JpaRepository<Usuario, Integer> {
 
-    public UserRepository(){
-        usuarios.add(new Usuario("Fanta", "santino@gmail.com", "1234", new Date("2002-2-2"), "Santino", "Floridia"));
-        usuarios.add(new Usuario("Fanta123", "gonzalo@gmail.com", "", new Date("2002-2-2"), "Santino", "Floridia"));
+    @Query("select u from Usuario u where u.nombreUsuario = ?1")
+    Optional<Usuario> findByNombreUsuario(String nombreUsuario);
 
-    }
+    @Query("select u from Usuario u where u.mail = ?1")
+    Optional<Usuario> findByMail(String mail);
 
-    public ArrayList<Usuario> getUsuarios() {
-        return usuarios;
-    }
+    @Query("select u from Usuario u where (u.nombreUsuario = ?1 OR u.mail = ?1) and u.contrasena = ?2")
+    Optional<Usuario> findByIdentificadorYContrasena(String identificador, String contrasena);
 
-    public void setUsuarios(Usuario usuario) {
-        this.usuarios.add(usuario);
-    }
 
-    public Optional<Usuario> encontrarPorNombreUusario(String nombreUsuario){
-        return usuarios.stream().filter(usuario -> usuario.getNombreUsuario().equals(nombreUsuario)).findFirst();
-    }
-    public Optional<Usuario> encontrarPorMail(String mail){
-        return usuarios.stream().filter(usuario -> usuario.getMail().equals(mail)).findFirst();
-    }
 
-    public String encontrarContrasenaPorUsuario(String nombreUsuario){
-        for (Usuario usuario : usuarios) {
-            if (usuario.getNombreUsuario().equals(nombreUsuario)){
-                return usuario.getContrasena();
-            }
-        }
-        return null;
-
-    }
 
 }
