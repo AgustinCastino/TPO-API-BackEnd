@@ -10,6 +10,6 @@ public class Carrito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "carrito",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Producto> productos;
+    /*@OneToMany(mappedBy = "carrito",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Producto> productos;*/
 }
