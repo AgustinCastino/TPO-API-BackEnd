@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/catalogo")
-public class CatalogoProductoController {
+public class CatalogoProductoController {/*
     @Autowired
     private CatalogoRepository catalogoRepository;
 
@@ -23,36 +23,13 @@ public class CatalogoProductoController {
     public ResponseEntity<ArrayList<ProductoService>> obtenerProductos(){
         return new ResponseEntity<>(catalogoRepository.getProductos(), HttpStatus.OK);
     }
-
-    @PostMapping("/productos")
-    public ResponseEntity<ProductoService> agregarProducto(ProductoService producto){
-        catalogoRepository.setProductos(producto);
-        return new ResponseEntity<>(producto, HttpStatus.CREATED);
-    }
-
+/*
     @GetMapping("/productos/{id}")
     public ResponseEntity<ProductoService> obtenerProductoPorId(int id){
-        return new ResponseEntity<>(catalogoRepository.encontrarPorId(id), HttpStatus.OK);
-    }
+        return new ResponseEntity<>(catalogoRepository.findById(id), HttpStatus.OK);
+    }*/
 
-    @PostMapping("/productos/{id}")
-    public ResponseEntity<ProductoService> modificarProducto(int id, ProductoService producto){
-        catalogoRepository.modificarProducto(id, producto);
-        return new ResponseEntity<>(producto, HttpStatus.OK);
-    }
-
-    @PostMapping("/productos/{id}/favorito")
-    public ResponseEntity<ProductoService> productoFavorito(int id){
-        catalogoRepository.productoFavorito(id);
-        return new ResponseEntity<>(catalogoRepository.encontrarPorId(id), HttpStatus.OK);
-    }
-
-    @PostMapping("/productos/{id}/eliminar")
-    public ResponseEntity<String> eliminarProducto(int id){
-        catalogoRepository.eliminarProducto(id);
-        return new ResponseEntity<>("Producto eliminado", HttpStatus.OK);
-    }
-
+/*
     @GetMapping("/productos/favoritos")
     public ResponseEntity<ArrayList<ProductoService>> obtenerProductosFavoritos(){
         ArrayList<ProductoService> productosFavoritos = new ArrayList<>();
@@ -84,7 +61,7 @@ public class CatalogoProductoController {
             }
         }
         return new ResponseEntity<>(productosDestacados, HttpStatus.OK);
-    }
+    }*/
 }
 
 

@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Repository
-public interface CatalogoRepository  extends JpaRepository<Producto, Integer> {
+public interface CatalogoRepository  extends JpaRepository<Producto, Integer> {/*
     Optional<Producto> findById(int id);
-    ArrayList<ProductoService> getProductos();
+    ArrayList<ProductoService> getProductos();*/
     
 
     

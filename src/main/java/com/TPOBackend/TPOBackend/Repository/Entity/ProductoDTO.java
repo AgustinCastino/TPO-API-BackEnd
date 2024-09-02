@@ -1,14 +1,16 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
-public class Producto {
+public class ProductoDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +32,7 @@ public class Producto {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;*/
 
-    public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, String categoria, String descripcion, boolean destacado) {
+    public ProductoDTO(String nombre, String liga, String equipo, String marca, double precio, int stock, String categoria, String descripcion, boolean destacado) {
         this.nombre = nombre;
         this.liga = liga;
         this.equipo = equipo;
@@ -42,10 +44,20 @@ public class Producto {
         this.favorito = false;
         this.visto = false;
         this.destacado = destacado;
-     /*deberia ir la busqueda del usuario para asociarlo al producto*/
+        /*deberia ir la busqueda del usuario para asociarlo al producto*/
 
     }
 
 
+    public boolean getDestacado() {
+        return destacado;
+    }
 
+    public boolean getVisto() {
+        return visto;
+    }
+
+    public boolean getFavorito() {
+        return favorito;
+    }
 }
