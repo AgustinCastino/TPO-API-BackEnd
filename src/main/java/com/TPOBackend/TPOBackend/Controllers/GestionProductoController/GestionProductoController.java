@@ -65,7 +65,7 @@ public class GestionProductoController {
         Producto producto = optionalProducto.get();
 
         // Actualizar solo los campos que no son nulos en el DTO
-        if (productoUpdateDTO.getNombre() != null) {
+        if (productoUpdateDTO.getNombre() != "") {
             producto.setNombre(productoUpdateDTO.getNombre());
         }
         if (productoUpdateDTO.getPrecio() != 0.0) {
@@ -74,16 +74,16 @@ public class GestionProductoController {
         if (productoUpdateDTO.getStock() != 0) {
             producto.setStock(productoUpdateDTO.getStock());
         }
-        if (productoUpdateDTO.getLiga() != null) {
+        if (productoUpdateDTO.getLiga() != "") {
             producto.setLiga(productoUpdateDTO.getLiga());
         }
-        if (productoUpdateDTO.getEquipo() != null) {
+        if (productoUpdateDTO.getEquipo() != "") {
             producto.setEquipo(productoUpdateDTO.getEquipo());
         }
-        if (productoUpdateDTO.getMarca() != null) {
+        if (productoUpdateDTO.getMarca() != "") {
             producto.setMarca(productoUpdateDTO.getMarca());
         }
-        if (productoUpdateDTO.getDescripcion() != null) {
+        if (productoUpdateDTO.getDescripcion() != "") {
             producto.setDescripcion(productoUpdateDTO.getDescripcion());
         }
 
