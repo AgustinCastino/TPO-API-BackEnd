@@ -1,6 +1,8 @@
 package com.TPOBackend.TPOBackend.Controllers.GestionProductoController;
 
 import com.TPOBackend.TPOBackend.Repository.Entity.Producto;
+import com.TPOBackend.TPOBackend.Repository.Entity.ProductoDTO;
+import com.TPOBackend.TPOBackend.Repository.ProductRepository;
 import com.TPOBackend.TPOBackend.Service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,10 @@ public class GestionProductoController {
 
         @Autowired
         private ProductoService ProductoService;
+    @Autowired
+    private ProductRepository productRepository;
 
-        // Crear Producto
+    // Crear Producto
         @PostMapping
         public ResponseEntity<Producto> crearProducto(@RequestBody Producto Producto) {
             Producto creado = ProductoService.crearProducto(Producto);
@@ -43,18 +47,49 @@ public class GestionProductoController {
             }
         }
 
-        // Actualizar Producto
-        @PutMapping("/{id}")
-        public ResponseEntity<Producto> actualizarProducto(@PathVariable int id, @RequestBody Producto Producto) {
-            Producto.setId(id);
-            Producto actualizado = ProductoService.actualizarProducto(Producto);
-            return new ResponseEntity<>(actualizado, HttpStatus.OK);
-        }
-
         // Eliminar Producto
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
             ProductoService.eliminarProducto(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Producto> actualizarProducto(@PathVariable Long id, @RequestBody ProductoDTO productoUpdateDTO) {
+        Optional<Producto> optionalProducto = productRepository.findById(id); // Correct usage
+
+        if (!optionalProducto.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Producto producto = optionalProducto.get();
+
+        // Actualizar solo los campos que no son nulos en el DTO
+        if (productoUpdateDTO.getNombre() != null) {
+            producto.setNombre(productoUpdateDTO.getNombre());
+        }
+        if (productoUpdateDTO.getPrecio() != 0.0) {
+            producto.setPrecio(productoUpdateDTO.getPrecio());
+        }
+        if (productoUpdateDTO.getStock() != 0) {
+            producto.setStock(productoUpdateDTO.getStock());
+        }
+        if (productoUpdateDTO.getLiga() != null) {
+            producto.setLiga(productoUpdateDTO.getLiga());
+        }
+        if (productoUpdateDTO.getEquipo() != null) {
+            producto.setEquipo(productoUpdateDTO.getEquipo());
+        }
+        if (productoUpdateDTO.getMarca() != null) {
+            producto.setMarca(productoUpdateDTO.getMarca());
+        }
+        if (productoUpdateDTO.getDescripcion() != null) {
+            producto.setDescripcion(productoUpdateDTO.getDescripcion());
+        }
+
+        // Guardar los cambios en la base de datos
+        ProductoService.actualizarProducto(producto);
+
+        return ResponseEntity.ok(producto);
     }
 }
