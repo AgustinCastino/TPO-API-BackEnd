@@ -48,4 +48,19 @@ public class UsuarioService {
 
 
     }
+
+    public boolean changeName(String newName, int userId){
+        boolean nameChanged = (userRepository.changeName(newName, userId) == 1);
+        return nameChanged;
+    }
+
+    public boolean changeMail(String newMail, int userId){
+        boolean mailChanged = (userRepository.changeMail(newMail, userId) == 1);
+        return mailChanged;
+    }
+
+    public boolean changeSurname(String newSurname, int userId){
+        boolean surnameChanged = (userRepository.changeSurname(newSurname, userId) == 1);
+        return surnameChanged;
+    }
 }
