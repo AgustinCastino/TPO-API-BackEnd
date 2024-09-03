@@ -22,13 +22,13 @@ public class CarritoController {
         return ResponseEntity.ok("carrito");
     }
 
-    @PostMapping("/agregar")
+    @PostMapping("/agregar/{idUsuario}/{idProducto}")
     public ResponseEntity agregarProducto(int idUsuario, int idProducto) throws Exception{
         Carrito carrito = carritoService.agregarProducto(idUsuario, idProducto);
         return ResponseEntity.ok(carrito);
     }
 
-    @PostMapping("/eliminar")
+    @PostMapping("/eliminar/{idUsuario}/{idProducto}")
     public ResponseEntity eliminarProducto(int idUsuario, int idProducto) throws Exception{
         Carrito carrito = carritoService.eliminarProducto(idUsuario, idProducto);
         return ResponseEntity.ok(carrito);
