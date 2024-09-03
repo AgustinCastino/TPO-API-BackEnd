@@ -8,6 +8,7 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -33,11 +34,18 @@ public class UsuarioService {
 
 
     public Usuario registrarUsuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) throws Exception {
-        Usuario usuarioExistente = userRepository.findByNombreUsuario(nombreUsuario).orElseThrow(() -> new Exception("El nombre de usuario ya esta ocupado"));
-        Usuario mailExistente = userRepository.findByMail(mail).orElseThrow(() -> new Exception("El mail que ingreso ya esta en uso"));
-        Usuario nuevoUsuario = new Usuario(nombreUsuario, mail, contrasena, fechaNacimiento, nombre, apellido);
-        this.userRepository.save(nuevoUsuario);
-        return nuevoUsuario;
+        /*Usuario usuarioExistente = userRepository.findByNombreUsuario(nombreUsuario).orElseThrow(() -> new Exception("El nombre de usuario ya esta ocupado"));
+        Usuario mailExistente = userRepository.findByMail(mail).orElseThrow(() -> new Exception("El mail que ingreso ya esta en uso"));*/
+        Optional<Usuario> usuarioExistente = userRepository.findByNombreUsuario(nombreUsuario);
+        Optional<Usuario> usuarioExistente2 = userRepository.findByMail(mail);
+        if(usuarioExistente2.isPresent() || usuarioExistente.isPresent()){
+            throw new Exception("Usuario ya existe en la base de datos");
+        }else{
+            Usuario nuevoUsuario = new Usuario(nombreUsuario, mail, contrasena, fechaNacimiento, nombre, apellido);
+            this.userRepository.save(nuevoUsuario);
+            return nuevoUsuario;
+        }
+
 
     }
 }
