@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,16 +21,22 @@ public class GestionUsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping("/registro")
-    public ResponseEntity registrarUsuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) throws Exception {
-        if (!esContrasenaValida(contrasena)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La contraseña no cumple con los requisitos.");
+    public ResponseEntity registrarUsuario(@RequestBody Usuario usuario) {
+        try {
+            if (!esContrasenaValida(usuario.getContrasena())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La contraseña no cumple con los requisitos.");
+            }
+            Usuario usuarioCrear = usuarioService.registrarUsuario(usuario.getNombreUsuario(), usuario.getMail(), usuario.getContrasena(),
+                    usuario.getFechaNacimiento(), usuario.getNombre(), usuario.getApellido());
+            return ResponseEntity.ok(usuarioCrear);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        Usuario usuario = usuarioService.registrarUsuario(nombreUsuario, mail, contrasena, fechaNacimiento, nombre, apellido);
-        return ResponseEntity.ok(usuario);
     }
 
+
     @PostMapping("/login")
-    public ResponseEntity iniciarSesion(UsuarioInicioSesion usuarioInicioSesion) throws Exception {
+    public ResponseEntity iniciarSesion(@RequestBody UsuarioInicioSesion usuarioInicioSesion) throws Exception {
         Usuario usuario = usuarioService.iniciarSesion(usuarioInicioSesion.getIdentificador(), usuarioInicioSesion.getContrasena());
         return ResponseEntity.ok(usuario);
     }

@@ -54,7 +54,7 @@ public class GestionProductoController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{id}")
+    /*@PutMapping("/{id}")
     public ResponseEntity<Producto> actualizarProducto(@PathVariable Long id, @RequestBody ProductoDTO productoUpdateDTO) {
         Optional<Producto> optionalProducto = productRepository.findById(id); // Correct usage
 
@@ -91,5 +91,5 @@ public class GestionProductoController {
         ProductoService.actualizarProducto(producto);
 
         return ResponseEntity.ok(producto);
-    }
+    }*/
 }
