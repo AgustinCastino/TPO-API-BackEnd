@@ -46,6 +46,40 @@ public class UsuarioService {
             return nuevoUsuario;
         }
 
-
     }
+
+    public boolean cambiarNombre(String nombre, int id){
+        boolean cambio = false;
+        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if(usuarioExistente.getId() < 0){
+            return cambio;
+        }
+        usuarioExistente.setNombre(nombre);
+        this.userRepository.save(usuarioExistente);
+        return !cambio;
+    
+    }
+
+    public boolean cambiarMail(String mailNuevo, int id){
+        boolean cambio = false;
+        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if(usuarioExistente.getId() < 0){
+            return cambio;
+        }
+        usuarioExistente.setMail(mailNuevo);
+        this.userRepository.save(usuarioExistente);
+        return !cambio;
+    }
+
+    public boolean cambiarApellido(String apellidoNuevo, int id){
+        boolean cambio = false;
+        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if(usuarioExistente.getId() < 0){
+            return cambio;
+        }
+        usuarioExistente.setApellido(apellidoNuevo);
+        this.userRepository.save(usuarioExistente);
+        return !cambio;
+    }
+
 }

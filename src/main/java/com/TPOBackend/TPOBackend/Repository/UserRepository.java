@@ -3,7 +3,9 @@ package com.TPOBackend.TPOBackend.Repository;
 
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.jta.UserTransactionAdapter;
 
@@ -22,8 +24,5 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("select u from Usuario u where (u.nombreUsuario = ?1 OR u.mail = ?1) and u.contrasena = ?2")
     Optional<Usuario> findByIdentificadorYContrasena(String identificador, String contrasena);
-
-
-
 
 }
