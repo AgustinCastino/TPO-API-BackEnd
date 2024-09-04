@@ -46,21 +46,40 @@ public class UsuarioService {
             return nuevoUsuario;
         }
 
-
     }
 
-    public boolean changeName(String newName, int userId){
-        boolean nameChanged = (userRepository.changeName(newName, userId) == 1);
-        return nameChanged;
+    public boolean cambiarNombre(String nombre, int id){
+        boolean cambio = false;
+        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if(usuarioExistente.getId() < 0){
+            return cambio;
+        }
+        usuarioExistente.setNombre(nombre);
+        this.userRepository.save(usuarioExistente);
+        return !cambio;
+    
     }
 
-    public boolean changeMail(String newMail, int userId){
-        boolean mailChanged = (userRepository.changeMail(newMail, userId) == 1);
-        return mailChanged;
+    public boolean cambiarMail(String mailNuevo, int id){
+        boolean cambio = false;
+        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if(usuarioExistente.getId() < 0){
+            return cambio;
+        }
+        usuarioExistente.setMail(mailNuevo);
+        this.userRepository.save(usuarioExistente);
+        return !cambio;
     }
 
-    public boolean changeSurname(String newSurname, int userId){
-        boolean surnameChanged = (userRepository.changeSurname(newSurname, userId) == 1);
-        return surnameChanged;
+    public boolean cambiarApellido(String apellidoNuevo, int id){
+        boolean cambio = false;
+        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        if(usuarioExistente.getId() < 0){
+            return cambio;
+        }
+        usuarioExistente.setApellido(apellidoNuevo);
+        this.userRepository.save(usuarioExistente);
+        return !cambio;
     }
+
 }

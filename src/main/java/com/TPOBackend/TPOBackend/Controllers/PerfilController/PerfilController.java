@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.TPOBackend.TPOBackend.Repository.Entity.ActualizarDatosDTO;
 import com.TPOBackend.TPOBackend.Service.CompraService;
 import com.TPOBackend.TPOBackend.Service.UsuarioService;
 
@@ -21,8 +24,8 @@ public class PerfilController {
     //private CompraService compraService;  
 
     @PutMapping("/cambiar_nombre")
-    public ResponseEntity changeName(String newName,int userId){
-        boolean usuario = usuarioService.changeName(newName, userId);
+    public ResponseEntity changeName(@RequestBody ActualizarDatosDTO request){
+        boolean usuario = usuarioService.cambiarNombre(request.getNombre(), request.getId());
         if (usuario){
             return ResponseEntity.ok(usuario);  
 
@@ -32,8 +35,8 @@ public class PerfilController {
     }
         
     @PutMapping("/cambiar_mail")
-    public ResponseEntity changeMail(String newMail,int userId){
-        boolean usuario = usuarioService.changeMail(newMail, userId);
+    public ResponseEntity changeMail(@RequestBody ActualizarDatosDTO request){
+        boolean usuario = usuarioService.cambiarMail(request.getMail(), request.getId());
         if (usuario){
             return ResponseEntity.ok(usuario);  
 
@@ -43,8 +46,8 @@ public class PerfilController {
     } 
 
     @PutMapping("/cambiar_apellido")
-    public ResponseEntity changeSurname(String newSurname,int userId){
-        boolean usuario = usuarioService.changeSurname(newSurname, userId);
+    public ResponseEntity changeSurname(@RequestBody ActualizarDatosDTO request){
+        boolean usuario = usuarioService.cambiarApellido(request.getApellido(), request.getId());
         if (usuario){
             return ResponseEntity.ok(usuario);  
 

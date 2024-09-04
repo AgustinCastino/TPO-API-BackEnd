@@ -25,18 +25,4 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
     @Query("select u from Usuario u where (u.nombreUsuario = ?1 OR u.mail = ?1) and u.contrasena = ?2")
     Optional<Usuario> findByIdentificadorYContrasena(String identificador, String contrasena);
 
-    @Modifying
-    @Query("UPDATE Usuario u SET nombre = :nombre WHERE u.id = :id")
-    int changeName(@Param("nombre") String name, @Param("id") int user_id);
-
-
-    @Modifying
-    @Query("UPDATE Usuario u SET mail = :mail WHERE u.id = :id")
-    int changeMail(@Param("mail") String mail, @Param("id") int user_id);
-
-    @Modifying
-    @Query("UPDATE Usuario u SET apellido = :surname WHERE u.id = :id")
-    int changeSurname(@Param("surname") String surname, @Param("id") int user_id);
-
-
 }
