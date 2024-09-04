@@ -1,6 +1,7 @@
 
 package com.TPOBackend.TPOBackend.Controllers.CatalogoProductoController;
 
+import com.TPOBackend.TPOBackend.Repository.Entity.Producto;
 import com.TPOBackend.TPOBackend.Repository.CatalogoRepository;
 import com.TPOBackend.TPOBackend.Service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,25 +12,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/catalogo")
-public class CatalogoProductoController {/*
+public class CatalogoProductoController {
+    
     @Autowired
     private CatalogoRepository catalogoRepository;
 
+    //listar productos
     @GetMapping("/productos")
     public ResponseEntity<ArrayList<ProductoService>> obtenerProductos(){
         return new ResponseEntity<>(catalogoRepository.getProductos(), HttpStatus.OK);
     }
-/*
-    @GetMapping("/productos/{id}")
-    public ResponseEntity<ProductoService> obtenerProductoPorId(int id){
-        return new ResponseEntity<>(catalogoRepository.findById(id), HttpStatus.OK);
-    }*/
 
-/*
+    //listar productos por favoritos
     @GetMapping("/productos/favoritos")
     public ResponseEntity<ArrayList<ProductoService>> obtenerProductosFavoritos(){
         ArrayList<ProductoService> productosFavoritos = new ArrayList<>();
@@ -61,7 +60,7 @@ public class CatalogoProductoController {/*
             }
         }
         return new ResponseEntity<>(productosDestacados, HttpStatus.OK);
-    }*/
+    }
 }
 
 

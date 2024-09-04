@@ -35,7 +35,12 @@ public class ProductoService {
         return productRepository.save(product);
     }
 
-    
+    public boolean isInFavorites() {
+        
+        return false;
+    }
+
+      
 }
 
 
