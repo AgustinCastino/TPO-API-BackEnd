@@ -25,4 +25,7 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
     @Query("select u from Usuario u where (u.nombreUsuario = ?1 OR u.mail = ?1) and u.contrasena = ?2")
     Optional<Usuario> findByIdentificadorYContrasena(String identificador, String contrasena);
 
+    @Query("select u from Usuario u where u.nombreUsuario = ?1 or u.mail = ?1")
+    Optional<Usuario> findByIdentificador(String identificador);
+
 }

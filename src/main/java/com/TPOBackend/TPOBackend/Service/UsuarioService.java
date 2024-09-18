@@ -27,15 +27,15 @@ public class UsuarioService {
         this.userRepository = userRepository;
     }
 
-    public Usuario iniciarSesion(String identificador, String contrasena) throws Exception {
+    /*public Usuario iniciarSesion(String identificador, String contrasena) throws Exception {
         Usuario usuarioExistente = userRepository.findByIdentificadorYContrasena(identificador, contrasena).orElseThrow(() -> new Exception("El usuario o la contraseña son incorrectos"));
         return usuarioExistente;
     }
 
 
     public Usuario registrarUsuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) throws Exception {
-        /*Usuario usuarioExistente = userRepository.findByNombreUsuario(nombreUsuario).orElseThrow(() -> new Exception("El nombre de usuario ya esta ocupado"));
-        Usuario mailExistente = userRepository.findByMail(mail).orElseThrow(() -> new Exception("El mail que ingreso ya esta en uso"));*/
+        Usuario usuarioExistente = userRepository.findByNombreUsuario(nombreUsuario).orElseThrow(() -> new Exception("El nombre de usuario ya esta ocupado"));
+        Usuario mailExistente = userRepository.findByMail(mail).orElseThrow(() -> new Exception("El mail que ingreso ya esta en uso"));
         Optional<Usuario> usuarioExistente = userRepository.findByNombreUsuario(nombreUsuario);
         Optional<Usuario> usuarioExistente2 = userRepository.findByMail(mail);
         if(usuarioExistente2.isPresent() || usuarioExistente.isPresent()){
@@ -46,7 +46,7 @@ public class UsuarioService {
             return nuevoUsuario;
         }
 
-    }
+    }*/
 
     public boolean cambiarNombre(String nombre, int id){
         boolean cambio = false;
