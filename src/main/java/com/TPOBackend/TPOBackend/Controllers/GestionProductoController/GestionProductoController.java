@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -77,7 +78,7 @@ public class GestionProductoController {
         Producto producto = optionalProducto.get();
 
         // Actualizar solo los campos que no son nulos en el DTO
-        if (productoUpdateDTO.getNombre() != "") {
+        if (!Objects.equals(productoUpdateDTO.getNombre(), "")) {
             producto.setNombre(productoUpdateDTO.getNombre());
         }
         if (productoUpdateDTO.getPrecio() != 0.0) {
@@ -86,16 +87,16 @@ public class GestionProductoController {
         if (productoUpdateDTO.getStock() != 0) {
             producto.setStock(productoUpdateDTO.getStock());
         }
-        if (productoUpdateDTO.getLiga() != "") {
+        if (!Objects.equals(productoUpdateDTO.getLiga(), "")) {
             producto.setLiga(productoUpdateDTO.getLiga());
         }
-        if (productoUpdateDTO.getEquipo() != "") {
+        if (!Objects.equals(productoUpdateDTO.getEquipo(), "")) {
             producto.setEquipo(productoUpdateDTO.getEquipo());
         }
-        if (productoUpdateDTO.getMarca() != "") {
+        if (!Objects.equals(productoUpdateDTO.getMarca(), "")) {
             producto.setMarca(productoUpdateDTO.getMarca());
         }
-        if (productoUpdateDTO.getDescripcion() != "") {
+        if (!Objects.equals(productoUpdateDTO.getDescripcion(), "")) {
             producto.setDescripcion(productoUpdateDTO.getDescripcion());
         }
 
