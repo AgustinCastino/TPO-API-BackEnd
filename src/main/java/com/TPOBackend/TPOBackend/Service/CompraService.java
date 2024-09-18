@@ -17,16 +17,6 @@ public class CompraService {
     }
 
 
-/*
-    public double calcularCostoCarrito(){
-        int costoTotal = 0;
-        for (Producto producto : carritoCompra.getProductos()){
-            costoTotal += producto.getPrice();
-        }
-        return costoTotal;
-    }*/
-
-
 
     @Override
     public String toString() {
