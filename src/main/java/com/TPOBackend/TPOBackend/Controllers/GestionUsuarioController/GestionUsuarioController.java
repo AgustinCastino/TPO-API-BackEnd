@@ -59,28 +59,6 @@ public class GestionUsuarioController {
 
     }
 
-    @RestController
-    @RequestMapping("/usuario")
-    public class UsuarioController {
-
-        @Autowired
-        private UsuarioService usuarioService;
-
-        @PutMapping("/actualizar/{id}")
-        public ResponseEntity<Void> actualizarContrasena(@PathVariable int id, @RequestBody CambioContraseñaDTO request) throws Exception {
-
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String authenticatedUserId = String.valueOf(((Usuario) authentication.getPrincipal()).getId()); // Asegúrate de que el método getId() retorne el ID correcto
-
-            if (!authenticatedUserId.equals(String.valueOf(id))) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403 Forbidden
-            }
-
-            usuarioService.actualizarContrasena(id, request.getContrasenaNueva());
-            return ResponseEntity.noContent().build(); // 204 No Content
-        }
-    }
-
 
     private boolean valido(String nombreUsuario, String contrasena) {
         return !nombreUsuario.isEmpty() && contrasena.length() >= 8;

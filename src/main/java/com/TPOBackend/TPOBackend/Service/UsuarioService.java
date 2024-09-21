@@ -37,12 +37,6 @@ public class UsuarioService {
         this.userRepository.delete(usuarioExistente);
         return usuarioExistente;
     }
-    public void actualizarContrasena(int id, String nuevaContrasena) throws Exception {
-        Usuario usuario = userRepository.findById(id)
-                .orElseThrow(() -> new Exception("Usuario no encontrado"));
-        usuario.setContrasena(passwordEncoder.encode(nuevaContrasena));
-        userRepository.save(usuario);
-    }
 
     public boolean cambiarNombre(String nombre, int id){
         boolean cambio = false;
