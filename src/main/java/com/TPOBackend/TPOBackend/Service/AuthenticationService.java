@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -23,7 +25,18 @@ public class AuthenticationService {
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
 
-        public AuthenticationResponse register(RegisterRequest request) {
+        public AuthenticationResponse register(RegisterRequest request) throws Exception
+        {
+                Optional<Usuario> userMail = repository.findByMail(request.getEmail());
+                Optional<Usuario> userName = repository.findByNombreUsuario(request.getUserName());
+
+                if (userMail.isPresent()) {
+                        throw new Exception("El correo electrónico ya está en uso.");
+                }
+                if (userName.isPresent()) {
+                        throw new Exception("El nombre de usuario ya está en uso.");
+                }
+
                 var user = Usuario.builder()
                         .nombreUsuario(request.getUserName())
                         .nombre(request.getFirstname())
