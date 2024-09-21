@@ -6,10 +6,6 @@ import com.TPOBackend.TPOBackend.Repository.Entity.RegisterRequest;
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import com.TPOBackend.TPOBackend.Repository.Entity.UsuarioInicioSesion;
 import com.TPOBackend.TPOBackend.Repository.UserRepository;
-
-
-
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,14 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-        @Autowired
-        private UserRepository repository;
-        @Autowired
-        private PasswordEncoder passwordEncoder;
-        @Autowired
-        private JwtService jwtService;
-        @Autowired
-        private AuthenticationManager authenticationManager;
+
+        private final UserRepository repository;
+        private final PasswordEncoder passwordEncoder;
+        private final JwtService jwtService;
+        private final AuthenticationManager authenticationManager;
 
         public AuthenticationResponse register(RegisterRequest request) {
                 var user = Usuario.builder()
@@ -48,12 +41,15 @@ public class AuthenticationService {
         }
 
         public AuthenticationResponse authenticate(UsuarioInicioSesion request) {
+
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(
-                                                request.getIdentificador(),
-                                                request.getContrasena()));
-                var user = repository.findByIdentificador(request.getIdentificador())
+                                                request.getEmail(),
+                                                request.getPassword()));
+
+                var user = repository.findByMail(request.getEmail())
                                 .orElseThrow();
+
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
