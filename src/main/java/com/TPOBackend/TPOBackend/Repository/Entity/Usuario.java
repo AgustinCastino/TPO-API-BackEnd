@@ -5,12 +5,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
+@Data
 @Entity
-public class Usuario {
+@Builder
+@AllArgsConstructor
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +36,12 @@ public class Usuario {
     private String apellido;
     private ArrayList<CompraService> comprasUsuario;
     private boolean logeado;
+    private Role rol;
 
-    public Usuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido) {
+    public Usuario (){}
+    
+
+    public Usuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido, Role rol) {
         this.nombreUsuario = nombreUsuario;
         this.mail = mail;
         this.contrasena = contrasena;
@@ -33,75 +50,41 @@ public class Usuario {
         this.apellido = apellido;
         this.logeado = false;
         this.comprasUsuario = new ArrayList<CompraService>();
+        this.rol = rol;
     }
 
-
-    public int getId() {
-        return id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setComprasUsuario(ArrayList<CompraService> comprasUsuario) {
-        this.comprasUsuario = comprasUsuario;
-    }
-
-    public String getContrasena() {
+    @Override
+    public String getPassword() {
         return contrasena;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    @Override
+    public String getUsername() {
+        return this.mail;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
     }
 
-    public String getMail() {
-        return mail;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
-
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public boolean isLogeado() {
-        return logeado;
-    }
-
-    public void setLogeado(boolean logeado) {
-        this.logeado = logeado;
-    }
-
 }

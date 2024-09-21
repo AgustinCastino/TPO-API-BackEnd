@@ -54,42 +54,4 @@ public class GestionProductoController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Producto> actualizarProducto(@PathVariable Long id, @RequestBody ProductoDTO productoUpdateDTO) {
-        Optional<Producto> optionalProducto = productRepository.findById(id); // Correct usage
-
-        if (!optionalProducto.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Producto producto = optionalProducto.get();
-
-        // Actualizar solo los campos que no son nulos en el DTO
-        if (productoUpdateDTO.getNombre() != "") {
-            producto.setNombre(productoUpdateDTO.getNombre());
-        }
-        if (productoUpdateDTO.getPrecio() != 0.0) {
-            producto.setPrecio(productoUpdateDTO.getPrecio());
-        }
-        if (productoUpdateDTO.getStock() != 0) {
-            producto.setStock(productoUpdateDTO.getStock());
-        }
-        if (productoUpdateDTO.getLiga() != "") {
-            producto.setLiga(productoUpdateDTO.getLiga());
-        }
-        if (productoUpdateDTO.getEquipo() != "") {
-            producto.setEquipo(productoUpdateDTO.getEquipo());
-        }
-        if (productoUpdateDTO.getMarca() != "") {
-            producto.setMarca(productoUpdateDTO.getMarca());
-        }
-        if (productoUpdateDTO.getDescripcion() != "") {
-            producto.setDescripcion(productoUpdateDTO.getDescripcion());
-        }
-
-        // Guardar los cambios en la base de datos
-        ProductoService.actualizarProducto(producto);
-
-        return ResponseEntity.ok(producto);
-    }
 }
