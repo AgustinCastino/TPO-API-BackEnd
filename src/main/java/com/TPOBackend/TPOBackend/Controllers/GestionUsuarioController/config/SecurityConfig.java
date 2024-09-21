@@ -26,8 +26,8 @@ public class SecurityConfig {
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(req -> req.requestMatchers("/usuario/**").permitAll()
-                                .requestMatchers("carrito/prueba").hasAnyAuthority(Role.ADMIN.name())
-                                                .anyRequest()
+                                 .requestMatchers("Productos/management/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .anyRequest()
                                                 .authenticated())
                                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                                 .authenticationProvider(authenticationProvider)
