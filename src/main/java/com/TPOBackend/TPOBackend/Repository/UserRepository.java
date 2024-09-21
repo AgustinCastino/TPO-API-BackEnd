@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
     @Query("select u from Usuario u where u.nombreUsuario = ?1")
     Optional<Usuario> findByNombreUsuario(String nombreUsuario);
 
-    @Query("select u from Usuario u where u.mail = ?1")
+    //@Query("select u from Usuario u where u.mail = ?1")
     Optional<Usuario> findByMail(String mail);
 
     @Query("select u from Usuario u where (u.nombreUsuario = ?1 OR u.mail = ?1) and u.contrasena = ?2")

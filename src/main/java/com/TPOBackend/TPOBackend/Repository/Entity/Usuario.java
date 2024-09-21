@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
@@ -54,17 +55,17 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return contrasena;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.mail;
     }
 
     @Override
