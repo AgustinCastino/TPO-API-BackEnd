@@ -1,13 +1,7 @@
 package com.TPOBackend.TPOBackend.Service;
 
-import com.TPOBackend.TPOBackend.Repository.CarritoItemRepository;
-import com.TPOBackend.TPOBackend.Repository.CarritoRepository;
-import com.TPOBackend.TPOBackend.Repository.Entity.Carrito;
-import com.TPOBackend.TPOBackend.Repository.Entity.CarritoItem;
-import com.TPOBackend.TPOBackend.Repository.Entity.Producto;
-import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
-import com.TPOBackend.TPOBackend.Repository.ProductRepository;
-import com.TPOBackend.TPOBackend.Repository.UserRepository;
+import com.TPOBackend.TPOBackend.Repository.*;
+import com.TPOBackend.TPOBackend.Repository.Entity.*;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +19,8 @@ public class CarritoService {
 
     private final CarritoRepository carritoRepository;
     private final CarritoItemRepository carritoItemRepository;
+    private final OrdenRepository ordenRepository;
+    private final OrdenItemRepository ordenItemRepository;
     private final ProductRepository productRepository;
     private final AuthenticationService authenticationService;
 
@@ -60,6 +56,7 @@ public class CarritoService {
         int idCarrito = carrito.getId();
         // Borro los items del carrito
         carritoItemRepository.deleteCarritoItemsPorProducto(idCarrito, idProducto);
+        carrito.actualizarPrecioTotal();
     }
 
     public Carrito verCarrito()  throws Exception {
@@ -68,12 +65,30 @@ public class CarritoService {
 
     public void vaciarCarrito()  throws Exception {
         Carrito carrito = this.encontrarCarrito();
-        // Borro los items del carrito
+        carrito.setPrecioTotal(0);
         carritoItemRepository.deleteCarritoItemsPorId(carrito.getId());
         carrito.getItems().clear();
+    }
 
-        // Borro el carrito
-        carritoRepository.deleteById(carrito.getId());
+    public void checkout() {
+        Carrito carrito = this.encontrarCarrito();
+
+        Orden nuevaOrden = new Orden();
+        nuevaOrden.setUsuario(carrito.getUsuario());
+        nuevaOrden.setPrecioTotal(carrito.getPrecioTotal());
+
+        ordenRepository.save(nuevaOrden);
+
+        for(CarritoItem item: carrito.getItems()) {
+            OrdenItem nuevaOrdenItem = new OrdenItem();
+            nuevaOrdenItem.setProducto(item.getProducto());
+            nuevaOrdenItem.setPrecioUnidad(item.getPrecioUnidad());
+            nuevaOrdenItem.setCantidad(item.getCantidad());
+            nuevaOrdenItem.setPrecioTotal(item.getPrecioTotal());
+
+            nuevaOrden.addItem(nuevaOrdenItem);
+            ordenItemRepository.save(nuevaOrdenItem);
+        }
 
     }
 
@@ -89,6 +104,7 @@ public class CarritoService {
 
         return carrito.get();
     }
+
 
 
 }

@@ -46,5 +46,12 @@ public class CarritoController {
         return ResponseEntity.ok("Vaciado");
     }
 
+    @PostMapping("/checkout")
+    public ResponseEntity confirmarCarrito() throws Exception{
+        carritoService.checkout();
+        carritoService.vaciarCarrito();
+        return ResponseEntity.ok("Orden Creada");
+    }
+
 
 }
