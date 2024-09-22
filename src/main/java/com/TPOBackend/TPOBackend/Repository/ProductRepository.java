@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Producto, Long> {
-//    List<Producto> findByUsuarioId(Long usuarioId);
+
 }
