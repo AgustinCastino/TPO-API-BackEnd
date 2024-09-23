@@ -1,6 +1,7 @@
 package com.TPOBackend.TPOBackend.Repository;
 
 
+import com.TPOBackend.TPOBackend.Repository.Entity.Compra;
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,6 +12,7 @@ import org.springframework.transaction.jta.UserTransactionAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,5 +29,8 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("select u from Usuario u where u.nombreUsuario = ?1 or u.mail = ?1")
     Optional<Usuario> findByIdentificador(String identificador);
+
+    @Query("SELECT c FROM Usuario c WHERE c.id = ?1")
+    Optional<Usuario> findByUser(int user_id);
 
 }

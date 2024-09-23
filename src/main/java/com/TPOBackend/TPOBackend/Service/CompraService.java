@@ -1,27 +1,37 @@
 package com.TPOBackend.TPOBackend.Service;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.TPOBackend.TPOBackend.Repository.CompraRepository;
+import com.TPOBackend.TPOBackend.Repository.UserRepository;
+import com.TPOBackend.TPOBackend.Repository.Entity.Carrito;
+import com.TPOBackend.TPOBackend.Repository.Entity.Compra;
+import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public class CompraService {
     
-    private int idCompra = 0;
-    private Date fechaCompra;
-    private CarritoService carritoCompra;
-
+    @Autowired
+    private CompraRepository compraRepository;
+    private final AuthenticationService authenticationService;
     
-    
-    public CompraService(int idCompra, Date fechaCompra, CarritoService carritoCompra) {
-        this.idCompra ++;
-        this.fechaCompra = fechaCompra;
-        this.carritoCompra = carritoCompra;
+    public ArrayList<Compra> getHistorial(){
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        Optional<List<Compra>> historial = compraRepository.findByUser(user);
+
+        if (historial.isEmpty()){
+            return new ArrayList<Compra>();
+        } else {
+            return new ArrayList<Compra>(historial.get());
+        }
     }
-
-
-
-    @Override
-    public String toString() {
-        return "Compra [fechaCompra=" + fechaCompra + ", carritoCompra=" + carritoCompra + "]";
-    }
-
 
 }

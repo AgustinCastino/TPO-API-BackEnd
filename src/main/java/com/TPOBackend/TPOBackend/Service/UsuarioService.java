@@ -61,15 +61,19 @@ public class UsuarioService {
         return !cambio;
     }
 
-    public boolean cambiarApellido(String apellidoNuevo, int id){
+    public boolean cambiarApellido(String apellidoNuevo, Usuario user) {
         boolean cambio = false;
-        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        if(usuarioExistente.getId() < 0){
-            return cambio;
+        Optional<Usuario> usuarioExistente = userRepository.findByUser(user.getId());
+    
+        if (usuarioExistente.isPresent()) {
+            Usuario usuario = usuarioExistente.get();
+            usuario.setApellido(apellidoNuevo);
+            this.userRepository.save(usuario);
+            cambio = true;
         }
-        usuarioExistente.setApellido(apellidoNuevo);
-        this.userRepository.save(usuarioExistente);
-        return !cambio;
+    
+        return cambio;
     }
+    
 
 }
