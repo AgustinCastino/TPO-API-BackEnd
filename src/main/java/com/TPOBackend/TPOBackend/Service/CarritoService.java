@@ -56,7 +56,9 @@ public class CarritoService {
         int idCarrito = carrito.getId();
         // Borro los items del carrito
         carritoItemRepository.deleteCarritoItemsPorProducto(idCarrito, idProducto);
+        carrito.borrarItemPorProducto(idProducto);
         carrito.actualizarPrecioTotal();
+        carritoRepository.save(carrito);
     }
 
     public Carrito verCarrito()  throws Exception {
@@ -70,25 +72,34 @@ public class CarritoService {
         carrito.getItems().clear();
     }
 
-    public void checkout() {
+    @Transactional
+    public void checkout() throws Exception {
         Carrito carrito = this.encontrarCarrito();
 
         Orden nuevaOrden = new Orden();
         nuevaOrden.setUsuario(carrito.getUsuario());
         nuevaOrden.setPrecioTotal(carrito.getPrecioTotal());
 
-        ordenRepository.save(nuevaOrden);
+
 
         for(CarritoItem item: carrito.getItems()) {
-            OrdenItem nuevaOrdenItem = new OrdenItem();
-            nuevaOrdenItem.setProducto(item.getProducto());
-            nuevaOrdenItem.setPrecioUnidad(item.getPrecioUnidad());
-            nuevaOrdenItem.setCantidad(item.getCantidad());
-            nuevaOrdenItem.setPrecioTotal(item.getPrecioTotal());
+            Producto producto = item.getProducto();
 
-            nuevaOrden.addItem(nuevaOrdenItem);
-            ordenItemRepository.save(nuevaOrdenItem);
+            if(item.getCantidad() > producto.getStock()){
+                throw new Exception("El producto " + producto.getNombre() + " tiene stock insuficiente.");
+            }else{
+                OrdenItem nuevaOrdenItem = new OrdenItem();
+                nuevaOrdenItem.setProducto(item.getProducto());
+                nuevaOrdenItem.setPrecioUnidad(item.getPrecioUnidad());
+                nuevaOrdenItem.setCantidad(item.getCantidad());
+                nuevaOrdenItem.setPrecioTotal(item.getPrecioTotal());
+
+                nuevaOrden.addItem(nuevaOrdenItem);
+                ordenItemRepository.save(nuevaOrdenItem);
+            }
         }
+
+        ordenRepository.save(nuevaOrden);
 
     }
 

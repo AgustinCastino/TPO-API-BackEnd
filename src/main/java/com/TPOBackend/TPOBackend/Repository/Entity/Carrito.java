@@ -46,4 +46,7 @@ public class Carrito {
     }
 
 
+    public void borrarItemPorProducto(long idProducto) {
+        this.items.removeIf(item -> item.getProducto().getId() == idProducto);
+    }
 }
