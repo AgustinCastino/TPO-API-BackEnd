@@ -1,41 +1,44 @@
 package com.TPOBackend.TPOBackend.Service;
 
-import com.TPOBackend.TPOBackend.Repository.Entity.CambioContraseñaDTO;
+import com.TPOBackend.TPOBackend.Repository.Entity.CambioContrasenaDTO;
 import com.TPOBackend.TPOBackend.Repository.UserRepository;
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UsuarioService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private  UserRepository userRepository;
+    private  PasswordEncoder passwordEncoder;
+    private AuthenticationService authenticationService;
 
-    public UsuarioService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+
+    public Usuario cambiarPassword(CambioContrasenaDTO request) throws Exception {
+
+        Usuario usuarioAut = authenticationService.getUsuarioAutenticado();
+        usuarioAut.setContrasena(passwordEncoder.encode(request.getContrasenaNueva()));
+        userRepository.save(usuarioAut);
+
+        return usuarioAut;
     }
 
-
-    /*public Usuario actualizar(CambioContraseñaDTO cambioContraseñaDTO){
-
-
-    }*/
     public List<Usuario> listarUsuarios(){
         return userRepository.findAll();
     }
 
-    public Usuario eliminar(int id) throws Exception{
+    public void eliminar(int id) throws Exception{
         Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado en la base de datos"));
         this.userRepository.delete(usuarioExistente);
-        return usuarioExistente;
     }
 
     public boolean cambiarNombre(String nombre, int id){

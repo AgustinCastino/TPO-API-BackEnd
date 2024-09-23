@@ -54,8 +54,14 @@ public class GestionUsuarioController {
     @DeleteMapping("/admin/eliminar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity eliminar(@PathVariable int id) throws Exception{
-        Usuario usuarioExistente = usuarioService.eliminar(id);
-        return ResponseEntity.ok(usuarioExistente);
+        usuarioService.eliminar(id);
+        return ResponseEntity.ok("Usuario eliminado");
+
+    }
+
+    @PutMapping("/actualizar")
+    public ResponseEntity actualizar(CambioContrasenaDTO cambioContrasenaDTO) throws Exception {
+        return ResponseEntity.ok(usuarioService.cambiarPassword(cambioContrasenaDTO));
 
     }
 
