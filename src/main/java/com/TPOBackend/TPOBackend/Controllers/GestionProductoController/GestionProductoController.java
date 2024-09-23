@@ -59,14 +59,14 @@ public class GestionProductoController {
     }
 
     // Eliminar Producto
-    @DeleteMapping("/management/{id}")
+    @DeleteMapping("/management/eliminar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
         ProductoService.eliminarProducto(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/management/{id}")
+    @PutMapping("/management/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Producto> actualizarProducto(@PathVariable Long id, @RequestBody ProductoDTO productoUpdateDTO) {
         Optional<Producto> optionalProducto = productRepository.findById(id); // Correct usage
@@ -77,8 +77,8 @@ public class GestionProductoController {
 
         Producto producto = optionalProducto.get();
 
-        // Actualizar solo los campos que no son nulos en el DTO
-        if (!Objects.equals(productoUpdateDTO.getNombre(), "")) {
+        // Actualizar solo los campos que no son nulos y no vacíos en el DTO
+        if (productoUpdateDTO.getNombre() != null && !productoUpdateDTO.getNombre().trim().isEmpty()) {
             producto.setNombre(productoUpdateDTO.getNombre());
         }
         if (productoUpdateDTO.getPrecio() != 0.0) {
@@ -87,16 +87,16 @@ public class GestionProductoController {
         if (productoUpdateDTO.getStock() != 0) {
             producto.setStock(productoUpdateDTO.getStock());
         }
-        if (!Objects.equals(productoUpdateDTO.getLiga(), "")) {
+        if (productoUpdateDTO.getLiga() != null && !productoUpdateDTO.getLiga().trim().isEmpty()) {
             producto.setLiga(productoUpdateDTO.getLiga());
         }
-        if (!Objects.equals(productoUpdateDTO.getEquipo(), "")) {
+        if (productoUpdateDTO.getEquipo() != null && !productoUpdateDTO.getEquipo().trim().isEmpty()) {
             producto.setEquipo(productoUpdateDTO.getEquipo());
         }
-        if (!Objects.equals(productoUpdateDTO.getMarca(), "")) {
+        if (productoUpdateDTO.getMarca() != null && !productoUpdateDTO.getMarca().trim().isEmpty()) {
             producto.setMarca(productoUpdateDTO.getMarca());
         }
-        if (!Objects.equals(productoUpdateDTO.getDescripcion(), "")) {
+        if (productoUpdateDTO.getDescripcion() != null && !productoUpdateDTO.getDescripcion().trim().isEmpty()) {
             producto.setDescripcion(productoUpdateDTO.getDescripcion());
         }
 

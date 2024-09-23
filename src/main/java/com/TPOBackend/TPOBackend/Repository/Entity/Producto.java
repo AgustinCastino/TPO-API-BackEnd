@@ -26,9 +26,6 @@ public class Producto {
     private boolean favorito;
     private boolean visto;
     private boolean destacado;
-    /*@ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;*/
 
     public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, String categoria, String descripcion, boolean destacado) {
         this.nombre = nombre;
