@@ -1,22 +1,49 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+@Data
 @Entity
+@NoArgsConstructor
 public class Carrito {
+
+    public Carrito(Usuario user){
+        this.usuario = user;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // Crea uma tabla intermedia entre Carrito y Productos
-    // Esto para evitar que los productos tengan un atributo carritoId
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(
-            name = "carrito_productos",
-            joinColumns = @JoinColumn(name = "carrito_id"),
-            inverseJoinColumns = @JoinColumn(name = "producto_id")
-    )
-    private List<Producto> productos;
+    private double precioTotal = 0;
+
+    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CarritoItem> items = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Usuario usuario;
+
+    public void addItem(CarritoItem nuevoItem){
+        this.items.add(nuevoItem);
+        nuevoItem.setCarrito(this);
+        this.actualizarPrecioTotal();
+    }
+
+    public void actualizarPrecioTotal(){
+        double precioTotal = 0;
+        for(CarritoItem item:items) {
+            precioTotal = precioTotal + item.getPrecioTotal();
+        }
+
+        this.precioTotal = precioTotal;
+    }
+
+
 }

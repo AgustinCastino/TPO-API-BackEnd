@@ -1,13 +1,13 @@
 package com.TPOBackend.TPOBackend.Controllers.CarritoController;
 
 import com.TPOBackend.TPOBackend.Repository.Entity.Carrito;
+import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
+import com.TPOBackend.TPOBackend.Service.AuthenticationService;
 import com.TPOBackend.TPOBackend.Service.CarritoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -15,23 +15,43 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarritoController {
 
     @Autowired
-    private CarritoService carritoService;
+    public CarritoService carritoService;
 
-    @GetMapping("/prueba")
-    public ResponseEntity prueba() throws Exception{
-        return ResponseEntity.ok("carrito");
-    }
-
-    @PostMapping("/agregar/{idUsuario}/{idProducto}")
-    public ResponseEntity agregarProducto(int idUsuario, int idProducto) throws Exception{
-        Carrito carrito = carritoService.agregarProducto(idUsuario, idProducto);
+    
+    @GetMapping("")
+    public ResponseEntity verCarrito() throws Exception{
+        Carrito carrito = carritoService.verCarrito();
         return ResponseEntity.ok(carrito);
     }
 
-    @PostMapping("/eliminar/{idUsuario}/{idProducto}")
-    public ResponseEntity eliminarProducto(int idUsuario, int idProducto) throws Exception{
-        Carrito carrito = carritoService.eliminarProducto(idUsuario, idProducto);
-        return ResponseEntity.ok(carrito);
+
+    @PostMapping("/agregar/{idProducto}/{cantidad}")
+    public ResponseEntity agregarProducto(@PathVariable("idProducto") long idProducto,
+                                          @PathVariable("cantidad") int cantidad)
+            throws Exception{
+        carritoService.agregarProducto(idProducto, cantidad);
+        return ResponseEntity.ok("Agregado");
     }
+
+    @PostMapping("/eliminar/{idProducto}")
+    public ResponseEntity eliminarProducto(@PathVariable("idProducto") long idProducto) throws Exception{
+        carritoService.eliminarProducto(idProducto);
+        return ResponseEntity.ok("eliminar");
+    }
+
+
+    @PostMapping("/vaciar")
+    public ResponseEntity vaciarCarrito() throws Exception{
+        carritoService.vaciarCarrito();
+        return ResponseEntity.ok("Vaciado");
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity confirmarCarrito() throws Exception{
+        carritoService.checkout();
+        carritoService.vaciarCarrito();
+        return ResponseEntity.ok("Orden Creada");
+    }
+
 
 }
