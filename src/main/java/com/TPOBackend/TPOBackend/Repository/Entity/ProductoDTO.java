@@ -1,6 +1,8 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class ProductoDTO {
 
     private int id;
@@ -17,9 +19,7 @@ public class ProductoDTO {
     private boolean favorito;
     private boolean visto;
     private boolean destacado;
-    /*@ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;*/
+
 
     public ProductoDTO(String nombre, String liga, String equipo, String marca, double precio, int stock, String categoria, String descripcion, boolean destacado) {
         this.nombre = nombre;
