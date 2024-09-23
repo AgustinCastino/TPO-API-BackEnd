@@ -37,43 +37,27 @@ public class UsuarioService {
         this.userRepository.delete(usuarioExistente);
         return usuarioExistente;
     }
-
-    public boolean cambiarNombre(String nombre, int id){
-        boolean cambio = false;
-        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        if(usuarioExistente.getId() < 0){
-            return cambio;
-        }
-        usuarioExistente.setNombre(nombre);
-        this.userRepository.save(usuarioExistente);
-        return !cambio;
-    
-    }
-
-    public boolean cambiarMail(String mailNuevo, int id){
-        boolean cambio = false;
-        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        if(usuarioExistente.getId() < 0){
-            return cambio;
-        }
-        usuarioExistente.setMail(mailNuevo);
-        this.userRepository.save(usuarioExistente);
-        return !cambio;
-    }
-
-    public boolean cambiarApellido(String apellidoNuevo, Usuario user) {
-        boolean cambio = false;
+  
+    public boolean cambiarDato(String valorACambiar, String datoNuevo, Usuario user) {
         Optional<Usuario> usuarioExistente = userRepository.findByUser(user.getId());
     
         if (usuarioExistente.isPresent()) {
             Usuario usuario = usuarioExistente.get();
-            usuario.setApellido(apellidoNuevo);
-            this.userRepository.save(usuario);
-            cambio = true;
-        }
-    
-        return cambio;
-    }
-    
+            switch (valorACambiar) {
+                case "Nombre":
+                    usuario.setNombre(datoNuevo);
+                    break;
+                case "Apellido":
+                    usuario.setApellido(datoNuevo);
+                    break;
+                case "Mail":
+                    usuario.setMail(datoNuevo);
+                    break;
 
+                }
+            this.userRepository.save(usuario);
+            return true;
+        }
+        return false;
+    }
 }

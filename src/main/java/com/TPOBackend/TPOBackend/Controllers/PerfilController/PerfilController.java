@@ -31,7 +31,8 @@ public class PerfilController {
 
     @PutMapping("/cambiar_nombre")
     public ResponseEntity cambiarNombre(@RequestBody ActualizarDatosDTO request){
-        boolean usuario = usuarioService.cambiarNombre(request.getNombre(), request.getId());
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        boolean usuario = usuarioService.cambiarDato("Nombre",request.getNombre(),user);
         if (usuario){
             return ResponseEntity.ok(usuario);  
 
@@ -42,7 +43,8 @@ public class PerfilController {
         
     @PutMapping("/cambiar_mail")
     public ResponseEntity cambiarMail(@RequestBody ActualizarDatosDTO request){
-        boolean usuario = usuarioService.cambiarMail(request.getMail(), request.getId());
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        boolean usuario = usuarioService.cambiarDato("Mail",request.getMail(), user);
         if (usuario){
             return ResponseEntity.ok(usuario);  
 
@@ -54,7 +56,7 @@ public class PerfilController {
     @PutMapping("/cambiar_apellido")
     public ResponseEntity cambiarApellido(@RequestBody ActualizarDatosDTO request){
         Usuario user = authenticationService.getUsuarioAutenticado();
-        boolean usuario = usuarioService.cambiarApellido(request.getApellido(), user);
+        boolean usuario = usuarioService.cambiarDato("Apellido",request.getApellido(), user);
         if (usuario){
             return ResponseEntity.ok(usuario);  
 
