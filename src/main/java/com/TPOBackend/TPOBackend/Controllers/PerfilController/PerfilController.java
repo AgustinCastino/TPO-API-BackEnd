@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.TPOBackend.TPOBackend.Repository.Entity.ActualizarDatosDTO;
 import com.TPOBackend.TPOBackend.Repository.Entity.OrdenDTO;
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
+import com.TPOBackend.TPOBackend.Repository.Entity.UsuarioDTO;
 import com.TPOBackend.TPOBackend.Service.AuthenticationService;
 import com.TPOBackend.TPOBackend.Service.OrdenService;
 import com.TPOBackend.TPOBackend.Service.UsuarioService;
@@ -110,5 +111,11 @@ public class PerfilController {
     public ResponseEntity<List<OrdenDTO>> getCompras(){
         List<OrdenDTO> compras = ordenService.verOrdenesByUser();            
         return ResponseEntity.ok(compras);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<UsuarioDTO> verDatosPersonales() throws Exception{
+        UsuarioDTO user = usuarioService.getDatosUsuario();            
+        return ResponseEntity.ok(user);
     }
  }
