@@ -85,22 +85,26 @@ public class CarritoService {
 
             if(item.getCantidad() > producto.getStock()){
                 throw new Exception("El producto " + producto.getNombre() + " tiene stock insuficiente.");
-            }else{
-                OrdenItem nuevaOrdenItem = new OrdenItem();
-                nuevaOrdenItem.setProducto(item.getProducto());
-                nuevaOrdenItem.setPrecioUnidad(item.getPrecioUnidad());
-                nuevaOrdenItem.setCantidad(item.getCantidad());
-                nuevaOrdenItem.setPrecioTotal(item.getPrecioTotal());
-
-                nuevaOrden.addItem(nuevaOrdenItem);
-                ordenItemRepository.save(nuevaOrdenItem);
-                producto.restarStock(item.getCantidad());
-                productRepository.save(producto);
             }
+
         }
 
-        ordenRepository.save(nuevaOrden);
+        for(CarritoItem item: carrito.getItems()) {
+            Producto producto = item.getProducto();
 
+            OrdenItem nuevaOrdenItem = new OrdenItem();
+            nuevaOrdenItem.setProducto(item.getProducto());
+            nuevaOrdenItem.setPrecioUnidad(item.getPrecioUnidad());
+            nuevaOrdenItem.setCantidad(item.getCantidad());
+            nuevaOrdenItem.setPrecioTotal(item.getPrecioTotal());
+
+            nuevaOrden.addItem(nuevaOrdenItem);
+            ordenItemRepository.save(nuevaOrdenItem);
+            producto.restarStock(item.getCantidad());
+            productRepository.save(producto);
+
+        }
+        ordenRepository.save(nuevaOrden);
     }
 
     private Carrito encontrarCarrito(){
