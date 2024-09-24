@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.TPOBackend.TPOBackend.Repository.Entity.ActualizarDatosDTO;
-import com.TPOBackend.TPOBackend.Repository.Entity.Orden;
 import com.TPOBackend.TPOBackend.Repository.Entity.OrdenDTO;
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import com.TPOBackend.TPOBackend.Service.AuthenticationService;
@@ -49,7 +47,7 @@ public class PerfilController {
         boolean usuario = usuarioService.cambiarDato("Nombre", nombre, user);
         
         if (usuario) {
-            return ResponseEntity.ok(usuario);
+            return ResponseEntity.ok("Nombre cambiado con éxito");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
         }
@@ -77,7 +75,7 @@ public class PerfilController {
         boolean usuario = usuarioService.cambiarDato("Mail", mail, user);
         
         if (usuario) {
-            return ResponseEntity.ok(usuario);
+            return ResponseEntity.ok("Mail cambiado con éxito");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
         }
@@ -101,7 +99,7 @@ public class PerfilController {
         boolean usuario = usuarioService.cambiarDato("Apellido", apellido, user);
         
         if (usuario) {
-            return ResponseEntity.ok(usuario);
+            return ResponseEntity.ok("Apellido cambiado con éxito");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
         }
