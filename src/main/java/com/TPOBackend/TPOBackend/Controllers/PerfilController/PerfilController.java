@@ -32,11 +32,23 @@ public class PerfilController {
 
     @PutMapping("/cambiar_nombre")
     public ResponseEntity cambiarNombre(@RequestBody ActualizarDatosDTO request){
-        Usuario user = authenticationService.getUsuarioAutenticado();
-        boolean usuario = usuarioService.cambiarDato("Nombre",request.getNombre(),user);
-        if (usuario){
-            return ResponseEntity.ok(usuario);  
+        String nombre = request.getNombre();
 
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre no puede ser nulo o vacío");
+        }
+
+        try {
+            Integer.parseInt(nombre);
+            return ResponseEntity.badRequest().body("El nombre no puede ser un número");
+        } catch (NumberFormatException e) {
+        }
+
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        boolean usuario = usuarioService.cambiarDato("Nombre", nombre, user);
+        
+        if (usuario) {
+            return ResponseEntity.ok(usuario);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
         }
@@ -44,26 +56,56 @@ public class PerfilController {
         
     @PutMapping("/cambiar_mail")
     public ResponseEntity cambiarMail(@RequestBody ActualizarDatosDTO request){
-        Usuario user = authenticationService.getUsuarioAutenticado();
-        boolean usuario = usuarioService.cambiarDato("Mail",request.getMail(), user);
-        if (usuario){
-            return ResponseEntity.ok(usuario);  
+        String mail = request.getMail();
 
+        if (mail == null || mail.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El mail no puede ser nulo o vacío");
+        }
+
+        try {
+            Integer.parseInt(mail);
+            return ResponseEntity.badRequest().body("El mail no puede ser un número");
+        } catch (NumberFormatException e) {
+        }
+
+        if (!mail.matches("^[A-Za-z0-9]+[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            return ResponseEntity.badRequest().body("El mail no tiene un formato válido");
+        }
+
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        boolean usuario = usuarioService.cambiarDato("Mail", mail, user);
+        
+        if (usuario) {
+            return ResponseEntity.ok(usuario);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");        }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+        }
     } 
 
     @PutMapping("/cambiar_apellido")
-    public ResponseEntity cambiarApellido(@RequestBody ActualizarDatosDTO request){
-        Usuario user = authenticationService.getUsuarioAutenticado();
-        boolean usuario = usuarioService.cambiarDato("Apellido",request.getApellido(), user);
-        if (usuario){
-            return ResponseEntity.ok(usuario);  
+    public ResponseEntity cambiarApellido(@RequestBody ActualizarDatosDTO request) {
+        String apellido = request.getApellido();
 
+        if (apellido == null || apellido.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El apellido no puede ser nulo o vacío");
+        }
+
+        try {
+            Integer.parseInt(apellido);
+            return ResponseEntity.badRequest().body("El apellido no puede ser un número");
+        } catch (NumberFormatException e) {
+        }
+
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        boolean usuario = usuarioService.cambiarDato("Apellido", apellido, user);
+        
+        if (usuario) {
+            return ResponseEntity.ok(usuario);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
         }
     }
+
 
     @GetMapping("/historial_compras")
     public ResponseEntity<List<Orden>> getCompras(){
