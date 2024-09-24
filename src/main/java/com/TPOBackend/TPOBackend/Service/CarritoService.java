@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -75,10 +76,12 @@ public class CarritoService {
     @Transactional
     public void checkout() throws Exception {
         Carrito carrito = this.encontrarCarrito();
+        
 
         Orden nuevaOrden = new Orden();
         nuevaOrden.setUsuario(carrito.getUsuario());
         nuevaOrden.setPrecioTotal(carrito.getPrecioTotal());
+        nuevaOrden.setFechaTransaccion(new Date());
 
         for(CarritoItem item: carrito.getItems()) {
             Producto producto = item.getProducto();
