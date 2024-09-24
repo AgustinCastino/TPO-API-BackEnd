@@ -1,6 +1,7 @@
 package com.TPOBackend.TPOBackend.Controllers.OrdenController;
 
 import com.TPOBackend.TPOBackend.Repository.Entity.Orden;
+import com.TPOBackend.TPOBackend.Repository.Entity.OrdenDTO;
 import com.TPOBackend.TPOBackend.Service.OrdenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class OrdenController {
 
     @GetMapping("")
     public ResponseEntity verOrdenesUsuario() throws Exception{
-        List<Orden> ordenes = ordenService.verOrdenesByUser();
+        List<OrdenDTO> ordenes = ordenService.verOrdenesByUser();
         return ResponseEntity.ok(ordenes);
     }
 

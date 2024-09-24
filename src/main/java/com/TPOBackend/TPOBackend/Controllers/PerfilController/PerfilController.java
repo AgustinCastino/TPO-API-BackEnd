@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.TPOBackend.TPOBackend.Repository.Entity.ActualizarDatosDTO;
 import com.TPOBackend.TPOBackend.Repository.Entity.Orden;
+import com.TPOBackend.TPOBackend.Repository.Entity.OrdenDTO;
 import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import com.TPOBackend.TPOBackend.Service.AuthenticationService;
 import com.TPOBackend.TPOBackend.Service.OrdenService;
@@ -108,8 +109,8 @@ public class PerfilController {
 
 
     @GetMapping("/historial_compras")
-    public ResponseEntity<List<Orden>> getCompras(){
-        List<Orden> compras = ordenService.verOrdenesByUser();            
+    public ResponseEntity<List<OrdenDTO>> getCompras(){
+        List<OrdenDTO> compras = ordenService.verOrdenesByUser();            
         return ResponseEntity.ok(compras);
     }
  }
