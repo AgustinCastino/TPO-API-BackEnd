@@ -3,7 +3,10 @@ package com.TPOBackend.TPOBackend.Service;
 import com.TPOBackend.TPOBackend.Repository.Entity.Producto;
 import com.TPOBackend.TPOBackend.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +26,11 @@ public class ProductoService {
         return productRepository.findAll();
     }
 
-    public Optional<Producto> obtenerProducto(Long id) {
+    public Optional<Producto> obtenerProducto(Integer id) {
         return productRepository.findById(id);
     }
 
-    public void eliminarProducto(Long id) {
+    public void eliminarProducto(Integer id) {
         productRepository.deleteById(id);
     }
 
@@ -46,6 +49,10 @@ public class ProductoService {
 
     public List<Producto> getProductosVistos() {
         return productRepository.findAll();
+    }
+
+    public List<Producto> findAllProducts(Specification<Producto> spec, Sort sortOrder) {
+        return productRepository.findAll(spec,sortOrder);
     }
     
 }

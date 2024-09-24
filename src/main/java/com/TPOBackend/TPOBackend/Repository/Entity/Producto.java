@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -19,22 +21,20 @@ public class Producto {
     private String liga;
     private String equipo;
     private String marca;
-    /*@ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private String categoria;*/
+    private Categoria categoria;
     private String descripcion;
     private boolean favorito;
     private boolean visto;
     private boolean destacado;
 
-    public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, String categoria, String descripcion, boolean destacado) {
+    public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, Categoria categoria, String descripcion, boolean destacado) {
         this.nombre = nombre;
         this.liga = liga;
         this.equipo = equipo;
         this.marca = marca;
         this.precio = precio;
         this.stock = stock;
-        /*this.categoria = categoria;*/
+        this.categoria = categoria;
         this.descripcion = descripcion;
         this.favorito = false;
         this.visto = false;

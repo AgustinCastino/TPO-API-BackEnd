@@ -3,10 +3,10 @@ package com.TPOBackend.TPOBackend.Repository;
 import com.TPOBackend.TPOBackend.Repository.Entity.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Producto, Long> {
+public interface ProductRepository extends JpaRepository<Producto, Integer>, JpaSpecificationExecutor<Producto> {
 
 }

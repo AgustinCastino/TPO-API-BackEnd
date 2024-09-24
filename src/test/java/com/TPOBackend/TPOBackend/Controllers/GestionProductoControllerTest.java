@@ -59,23 +59,23 @@ public class GestionProductoControllerTest {
 
     @Test
     void testObtenerProducto_ProductoExistente() {
-        when(productoService.obtenerProducto(6L)).thenReturn(Optional.of(producto));
+        when(productoService.obtenerProducto(6)).thenReturn(Optional.of(producto));
 
-        ResponseEntity<Producto> response = gestionProductoController.obtenerProducto(6L);
+        ResponseEntity<Producto> response = gestionProductoController.obtenerProducto(6);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(producto, response.getBody());
-        verify(productoService, times(1)).obtenerProducto(6L);
+        verify(productoService, times(1)).obtenerProducto(6);
     }
 
     @Test
     void testObtenerProducto_ProductoNoExistente() {
-        when(productoService.obtenerProducto(6L)).thenReturn(Optional.empty());
+        when(productoService.obtenerProducto(6)).thenReturn(Optional.empty());
 
-        ResponseEntity<Producto> response = gestionProductoController.obtenerProducto(6L);
+        ResponseEntity<Producto> response = gestionProductoController.obtenerProducto(6);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        verify(productoService, times(1)).obtenerProducto(6L);
+        verify(productoService, times(1)).obtenerProducto(6);
     }
 
     @Test
@@ -91,12 +91,12 @@ public class GestionProductoControllerTest {
 
     @Test
     void testEliminarProducto() {
-        doNothing().when(productoService).eliminarProducto(6L);
+        doNothing().when(productoService).eliminarProducto(6);
 
-        ResponseEntity<Void> response = gestionProductoController.eliminarProducto(6L);
+        ResponseEntity<Void> response = gestionProductoController.eliminarProducto(6);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        verify(productoService, times(1)).eliminarProducto(6L);
+        verify(productoService, times(1)).eliminarProducto(6);
     }
 
     @Test
@@ -105,14 +105,14 @@ public class GestionProductoControllerTest {
         productoDTO.setNombre("Updated Name");
         productoDTO.setPrecio(200.0);
 
-        when(productRepository.findById(6L)).thenReturn(Optional.of(producto)); // Mocking the repository
+        when(productRepository.findById(6)).thenReturn(Optional.of(producto)); // Mocking the repository
         when(productoService.actualizarProducto(any(Producto.class))).thenReturn(producto);
 
-        ResponseEntity<Producto> response = gestionProductoController.actualizarProducto(6L, productoDTO);
+        ResponseEntity<Producto> response = gestionProductoController.actualizarProducto(6, productoDTO);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Updated Name", response.getBody().getNombre());
-        verify(productRepository, times(1)).findById(6L);  // Verify repository interaction
+        verify(productRepository, times(1)).findById(6);  // Verify repository interaction
         verify(productoService, times(1)).actualizarProducto(any(Producto.class));
     }
 }

@@ -26,7 +26,7 @@ public class CarritoController {
 
 
     @PostMapping("/agregar/{idProducto}/{cantidad}")
-    public ResponseEntity agregarProducto(@PathVariable("idProducto") long idProducto,
+    public ResponseEntity agregarProducto(@PathVariable("idProducto") int idProducto,
                                           @PathVariable("cantidad") int cantidad)
             throws Exception{
         carritoService.agregarProducto(idProducto, cantidad);
@@ -34,7 +34,7 @@ public class CarritoController {
     }
 
     @PostMapping("/eliminar/{idProducto}")
-    public ResponseEntity eliminarProducto(@PathVariable("idProducto") long idProducto) throws Exception{
+    public ResponseEntity eliminarProducto(@PathVariable("idProducto") int idProducto) throws Exception{
         carritoService.eliminarProducto(idProducto);
         return ResponseEntity.ok("eliminar");
     }
