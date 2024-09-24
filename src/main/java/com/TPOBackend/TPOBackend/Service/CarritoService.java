@@ -25,7 +25,7 @@ public class CarritoService {
     private final AuthenticationService authenticationService;
 
 
-    public void agregarProducto(long idProducto, int cantidad) throws Exception{
+    public void agregarProducto(Integer idProducto, int cantidad) throws Exception{
         Carrito carrito = this.encontrarCarrito();
         Producto producto = productRepository.findById(idProducto).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 

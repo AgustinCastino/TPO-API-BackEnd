@@ -11,7 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -33,7 +32,7 @@ public class GestionProductoController {
 
     // Obtener Producto por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> obtenerProducto(@PathVariable Long id) {
+    public ResponseEntity<Producto> obtenerProducto(@PathVariable int id) {
         Optional<Producto> Producto = ProductoService.obtenerProducto(id);
         if (Producto.isPresent()) {
             return new ResponseEntity<>(Producto.get(), HttpStatus.OK);
@@ -61,14 +60,14 @@ public class GestionProductoController {
     // Eliminar Producto
     @DeleteMapping("/management/eliminar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarProducto(@PathVariable int id) {
         ProductoService.eliminarProducto(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/management/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Producto> actualizarProducto(@PathVariable Long id, @RequestBody ProductoDTO productoUpdateDTO) {
+    public ResponseEntity<Producto> actualizarProducto(@PathVariable int id, @RequestBody ProductoDTO productoUpdateDTO) {
         Optional<Producto> optionalProducto = productRepository.findById(id); // Correct usage
 
         if (!optionalProducto.isPresent()) {

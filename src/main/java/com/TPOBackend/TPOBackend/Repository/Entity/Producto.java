@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -20,9 +22,6 @@ public class Producto {
     private String equipo;
     private String marca;
     private Categoria categoria;
-    /*@ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private String categoria;*/
     private String descripcion;
     private boolean favorito;
     private boolean visto;
