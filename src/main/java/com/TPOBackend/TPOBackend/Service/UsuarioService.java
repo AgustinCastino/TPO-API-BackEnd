@@ -67,6 +67,12 @@ public class UsuarioService {
         return false;
     }
 
+    public UsuarioDTO getDatosUsuario() throws Exception {
+        Usuario usuarioAut = authenticationService.getUsuarioAutenticado();
+        Usuario usuario = userRepository.findByUser(usuarioAut.getId()).orElseThrow(() -> new Exception("Usuario no encontrado en la base de datos"));
+        return userMapper.toDTO(usuario);
+    }
+
     public List<UsuarioDTO> pasarDTO(List<Usuario> usuarios) {
         List<UsuarioDTO> usuarioDTOs = new ArrayList<>();
 
