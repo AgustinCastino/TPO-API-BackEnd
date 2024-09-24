@@ -11,6 +11,7 @@ import org.springframework.transaction.jta.UserTransactionAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,5 +26,8 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
     @Query("select u from Usuario u where (u.nombreUsuario = ?1 OR u.mail = ?1) and u.contrasena = ?2")
     Optional<Usuario> findByIdentificadorYContrasena(String identificador, String contrasena);
 
+
+    @Query("SELECT c FROM Usuario c WHERE c.id = ?1")
+    Optional<Usuario> findByUser(int user_id);
 
 }

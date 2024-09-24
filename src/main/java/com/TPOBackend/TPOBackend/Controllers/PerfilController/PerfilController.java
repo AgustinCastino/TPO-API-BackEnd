@@ -1,8 +1,9 @@
 package com.TPOBackend.TPOBackend.Controllers.PerfilController;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.TPOBackend.TPOBackend.Repository.Entity.ActualizarDatosDTO;
-import com.TPOBackend.TPOBackend.Service.CompraService;
+import com.TPOBackend.TPOBackend.Repository.Entity.Orden;
+import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
+import com.TPOBackend.TPOBackend.Service.AuthenticationService;
+import com.TPOBackend.TPOBackend.Service.OrdenService;
 import com.TPOBackend.TPOBackend.Service.UsuarioService;
 
 @RestController
@@ -21,44 +25,49 @@ public class PerfilController {
     
     @Autowired
     private UsuarioService usuarioService;
-    //private CompraService compraService;  
+    @Autowired
+    private OrdenService ordenService;
+    @Autowired  
+    private AuthenticationService authenticationService;
 
     @PutMapping("/cambiar_nombre")
-    public ResponseEntity changeName(@RequestBody ActualizarDatosDTO request){
-        boolean usuario = usuarioService.cambiarNombre(request.getNombre(), request.getId());
+    public ResponseEntity cambiarNombre(@RequestBody ActualizarDatosDTO request){
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        boolean usuario = usuarioService.cambiarDato("Nombre",request.getNombre(),user);
         if (usuario){
             return ResponseEntity.ok(usuario);  
 
         } else {
-            return ResponseEntity.badRequest().body(false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
         }
     }
         
     @PutMapping("/cambiar_mail")
-    public ResponseEntity changeMail(@RequestBody ActualizarDatosDTO request){
-        boolean usuario = usuarioService.cambiarMail(request.getMail(), request.getId());
+    public ResponseEntity cambiarMail(@RequestBody ActualizarDatosDTO request){
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        boolean usuario = usuarioService.cambiarDato("Mail",request.getMail(), user);
         if (usuario){
             return ResponseEntity.ok(usuario);  
 
         } else {
-            return ResponseEntity.badRequest().body(false);
-        }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");        }
     } 
 
     @PutMapping("/cambiar_apellido")
-    public ResponseEntity changeSurname(@RequestBody ActualizarDatosDTO request){
-        boolean usuario = usuarioService.cambiarApellido(request.getApellido(), request.getId());
+    public ResponseEntity cambiarApellido(@RequestBody ActualizarDatosDTO request){
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        boolean usuario = usuarioService.cambiarDato("Apellido",request.getApellido(), user);
         if (usuario){
             return ResponseEntity.ok(usuario);  
 
         } else {
-            return ResponseEntity.badRequest().body(false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
         }
     }
 
-    // @GetMapping("/historial_compras")
-    // public ResponseEntity<Compra> getCompras(int userId){
-    //     ArrayList<Compra> compras = compraService.getCompras(userId);
-    //     return null;
-    // }
-}
+    @GetMapping("/historial_compras")
+    public ResponseEntity<List<Orden>> getCompras(){
+        List<Orden> compras = ordenService.verOrdenesByUser();            
+        return ResponseEntity.ok(compras);
+    }
+ }

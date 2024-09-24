@@ -71,6 +71,6 @@ public class AuthenticationService {
         }
 
         public Usuario getUsuarioAutenticado() {
-               return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        }
+                return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         }
 }
