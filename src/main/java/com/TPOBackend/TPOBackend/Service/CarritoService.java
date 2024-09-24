@@ -80,8 +80,6 @@ public class CarritoService {
         nuevaOrden.setUsuario(carrito.getUsuario());
         nuevaOrden.setPrecioTotal(carrito.getPrecioTotal());
 
-
-
         for(CarritoItem item: carrito.getItems()) {
             Producto producto = item.getProducto();
 
@@ -96,6 +94,8 @@ public class CarritoService {
 
                 nuevaOrden.addItem(nuevaOrdenItem);
                 ordenItemRepository.save(nuevaOrdenItem);
+                producto.restarStock(item.getCantidad());
+                productRepository.save(producto);
             }
         }
 
