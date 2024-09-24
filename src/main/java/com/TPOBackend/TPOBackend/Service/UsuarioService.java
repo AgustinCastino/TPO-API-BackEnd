@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,38 +49,27 @@ public class UsuarioService {
         this.userRepository.delete(usuarioExistente);
     }
 
-    public boolean cambiarNombre(String nombre, int id){
-        boolean cambio = false;
-        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        if(usuarioExistente.getId() < 0){
-            return cambio;
-        }
-        usuarioExistente.setNombre(nombre);
-        this.userRepository.save(usuarioExistente);
-        return !cambio;
-    
-    }
+    public boolean cambiarDato(String valorACambiar, String datoNuevo, Usuario user) {
+        Optional<Usuario> usuarioExistente = userRepository.findByUser(user.getId());
 
-    public boolean cambiarMail(String mailNuevo, int id){
-        boolean cambio = false;
-        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        if(usuarioExistente.getId() < 0){
-            return cambio;
-        }
-        usuarioExistente.setMail(mailNuevo);
-        this.userRepository.save(usuarioExistente);
-        return !cambio;
-    }
+        if (usuarioExistente.isPresent()) {
+            Usuario usuario = usuarioExistente.get();
+            switch (valorACambiar) {
+                case "Nombre":
+                    usuario.setNombre(datoNuevo);
+                    break;
+                case "Apellido":
+                    usuario.setApellido(datoNuevo);
+                    break;
+                case "Mail":
+                    usuario.setMail(datoNuevo);
+                    break;
 
-    public boolean cambiarApellido(String apellidoNuevo, int id){
-        boolean cambio = false;
-        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        if(usuarioExistente.getId() < 0){
-            return cambio;
+            }
+            this.userRepository.save(usuario);
+            return true;
         }
-        usuarioExistente.setApellido(apellidoNuevo);
-        this.userRepository.save(usuarioExistente);
-        return !cambio;
+        return false;
     }
 
     public List<UsuarioDTO> pasarDTO(List<Usuario> usuarios) {

@@ -1,6 +1,5 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
-import com.TPOBackend.TPOBackend.Service.CompraService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,11 +30,8 @@ public class Usuario implements UserDetails {
     private Date fechaNacimiento;
     private String nombre;
     private String apellido;
-    private ArrayList<CompraService> comprasUsuario;
-    private boolean logeado;
     private Role rol;
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Carrito carrito;
+
 
 
     public Usuario (){}
@@ -48,8 +44,6 @@ public class Usuario implements UserDetails {
         this.fechaNacimiento = fechaNacimiento;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.logeado = false;
-        this.comprasUsuario = new ArrayList<CompraService>();
         this.rol = rol;
     }
 

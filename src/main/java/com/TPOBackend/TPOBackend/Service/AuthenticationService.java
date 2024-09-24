@@ -44,6 +44,7 @@ public class AuthenticationService {
                         .apellido(request.getLastname())
                         .mail(request.getEmail())
                         .contrasena(passwordEncoder.encode(request.getPassword()))
+                        .fechaNacimiento(request.getFechaNacimiento())
                         .rol(request.getRole())
                         .build();
 
