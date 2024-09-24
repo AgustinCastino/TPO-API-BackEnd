@@ -1,10 +1,7 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
 import com.TPOBackend.TPOBackend.Service.CompraService;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,6 +34,9 @@ public class Usuario implements UserDetails {
     private ArrayList<CompraService> comprasUsuario;
     private boolean logeado;
     private Role rol;
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Carrito carrito;
+
 
     public Usuario (){}
     
