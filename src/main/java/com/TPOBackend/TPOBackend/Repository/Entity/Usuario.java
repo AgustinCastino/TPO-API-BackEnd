@@ -1,6 +1,5 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
-import com.TPOBackend.TPOBackend.Repository.Entity.Compra;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +13,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +32,6 @@ public class Usuario implements UserDetails {
     private Date fechaNacimiento;
     private String nombre;
     private String apellido;
-    private ArrayList<Compra> comprasUsuario;
     private boolean logeado;
     private Role rol;
 
@@ -49,7 +46,6 @@ public class Usuario implements UserDetails {
         this.nombre = nombre;
         this.apellido = apellido;
         this.logeado = false;
-        this.comprasUsuario = new ArrayList<Compra>();
         this.rol = rol;
     }
 
