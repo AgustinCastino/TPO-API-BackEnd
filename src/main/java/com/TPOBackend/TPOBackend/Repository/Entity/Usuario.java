@@ -1,9 +1,6 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -32,8 +30,9 @@ public class Usuario implements UserDetails {
     private Date fechaNacimiento;
     private String nombre;
     private String apellido;
-    private boolean logeado;
     private Role rol;
+
+
 
     public Usuario (){}
     
@@ -45,7 +44,6 @@ public class Usuario implements UserDetails {
         this.fechaNacimiento = fechaNacimiento;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.logeado = false;
         this.rol = rol;
     }
 

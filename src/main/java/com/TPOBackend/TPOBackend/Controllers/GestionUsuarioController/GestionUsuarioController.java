@@ -22,11 +22,13 @@ public class GestionUsuarioController {
     private UsuarioService usuarioService;
 
     @Autowired
-    private AuthenticationService service;  // Agrega @Autowired aquí
+    private AuthenticationService service;
 
-    @GetMapping
-    public ResponseEntity<List<Usuario>> listarUsuarios(){
-        List<Usuario> usuarios = usuarioService.listarUsuarios();
+
+    @GetMapping("admin/listaUsers")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<UsuarioDTO>> listarUsuarios(){
+        List<UsuarioDTO> usuarios = usuarioService.listarUsuarios();
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 
@@ -54,8 +56,18 @@ public class GestionUsuarioController {
     @DeleteMapping("/admin/eliminar/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity eliminar(@PathVariable int id) throws Exception{
-        Usuario usuarioExistente = usuarioService.eliminar(id);
-        return ResponseEntity.ok(usuarioExistente);
+        usuarioService.eliminar(id);
+        return ResponseEntity.ok("Usuario eliminado");
+
+    }
+
+    @PutMapping("/actualizar")
+    public ResponseEntity actualizar(@RequestBody CambioContrasenaDTO cambioContrasenaDTO) throws Exception {
+        if(cambioContrasenaDTO.getContrasenaNueva().length()<8){
+            return ResponseEntity.badRequest().body("Campos no validos");
+        }
+        usuarioService.cambiarPassword(cambioContrasenaDTO);
+        return ResponseEntity.ok("Contraseña Actualizada");
 
     }
 

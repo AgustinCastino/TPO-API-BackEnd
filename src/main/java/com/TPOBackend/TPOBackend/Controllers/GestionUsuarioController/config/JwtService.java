@@ -1,5 +1,6 @@
 package com.TPOBackend.TPOBackend.Controllers.GestionUsuarioController.config;
 
+import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -21,9 +22,11 @@ public class JwtService {
 
     public String generateToken(
             UserDetails userDetails) {
+        String nombreUsuario = ((Usuario) userDetails).getNombreUsuario();
         return Jwts
                 .builder()
                 .subject(userDetails.getUsername())
+                .claim("nombreUsuario", nombreUsuario)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSecretKey())

@@ -28,6 +28,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(req ->
                                         req.requestMatchers("usuario/registro", "usuario/authenticate").permitAll()
                                                 .requestMatchers("usuario/admin/**").hasAuthority(Role.ADMIN.name())
+                                                .requestMatchers("usuario/actualizar").authenticated()
                                         .requestMatchers("Productos/management/**").hasAnyAuthority(Role.ADMIN.name())
                                         .anyRequest()
                                                 .authenticated())

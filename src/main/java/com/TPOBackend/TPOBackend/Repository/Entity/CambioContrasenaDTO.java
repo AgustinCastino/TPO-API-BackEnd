@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CambioContraseñaDTO {
-    private String email;
-    private String contrasenaActual;
+public class CambioContrasenaDTO {
     private String contrasenaNueva;
 }
