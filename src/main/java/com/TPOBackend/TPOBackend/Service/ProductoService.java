@@ -35,6 +35,18 @@ public class ProductoService {
         return productRepository.save(product);
     }
 
+    public List<Producto> getProductosFavoritos() {
+        return productRepository.findAll();
+    }
+
+    //funcion para traer todos los productos destacados
+    public List<Producto> getProductosDestacados() {
+        return productRepository.findAll();
+    }
+
+    public List<Producto> getProductosVistos() {
+        return productRepository.findAll();
+    }
     
 }
 
