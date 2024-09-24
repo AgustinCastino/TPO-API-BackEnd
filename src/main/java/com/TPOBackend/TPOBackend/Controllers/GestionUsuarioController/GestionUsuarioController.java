@@ -34,7 +34,8 @@ public class GestionUsuarioController {
 
     @PostMapping("/registro")
     public ResponseEntity register(@RequestBody RegisterRequest request) throws Exception {
-        boolean isValido = valido(request.getUserName(), request.getPassword());
+        boolean isValido = validoRegistro(request.getEmail(), request.getPassword(), request.getUserName());
+
         if (isValido){
             return ResponseEntity.ok(service.register(request));
         } else {
@@ -44,20 +45,13 @@ public class GestionUsuarioController {
 
     @PostMapping("/authenticate")
     public ResponseEntity authenticate(@RequestBody UsuarioInicioSesion request) throws Exception{
-        boolean isValido = valido(request.getEmail(), request.getPassword());
+        boolean isValido = validoInicioSesion(request.getEmail(), request.getPassword());
+
         if(isValido){
             return ResponseEntity.ok(service.authenticate(request));
         }else{
             return ResponseEntity.badRequest().body("Campos no validos");
         }
-
-    }
-
-    @DeleteMapping("/admin/eliminar/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity eliminar(@PathVariable int id) throws Exception{
-        usuarioService.eliminar(id);
-        return ResponseEntity.ok("Usuario eliminado");
 
     }
 
@@ -72,7 +66,13 @@ public class GestionUsuarioController {
     }
 
 
-    private boolean valido(String nombreUsuario, String contrasena) {
-        return !nombreUsuario.isEmpty() && contrasena.length() >= 8;
+    private boolean validoRegistro(String mail, String contrasena, String nombreUsuario) {
+        return mail.matches("^[A-Za-z0-9]+[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$") && contrasena.length() >= 8 && !nombreUsuario.isEmpty() ;
     }
+
+    private boolean validoInicioSesion(String mail, String contrasena) {
+        return mail.matches("^[A-Za-z0-9]+[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$") && contrasena.length() >= 8;
+    }
+
+
 }

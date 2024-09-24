@@ -1,10 +1,8 @@
 package com.TPOBackend.TPOBackend.Service;
 
-import com.TPOBackend.TPOBackend.Repository.Entity.CambioContrasenaDTO;
-import com.TPOBackend.TPOBackend.Repository.Entity.UserMapper;
-import com.TPOBackend.TPOBackend.Repository.Entity.UsuarioDTO;
+import com.TPOBackend.TPOBackend.Repository.CarritoRepository;
+import com.TPOBackend.TPOBackend.Repository.Entity.*;
 import com.TPOBackend.TPOBackend.Repository.UserRepository;
-import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,7 @@ public class UsuarioService {
     private  PasswordEncoder passwordEncoder;
     private AuthenticationService authenticationService;
     private UserMapper userMapper;
+    private CarritoRepository carritoRepository;
 
 
     public void cambiarPassword(CambioContrasenaDTO request) throws Exception {
@@ -44,10 +43,6 @@ public class UsuarioService {
         return listaUsuarios;
     }
 
-    public void eliminar(int id) throws Exception{
-        Usuario usuarioExistente = userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado en la base de datos"));
-        this.userRepository.delete(usuarioExistente);
-    }
 
     public boolean cambiarDato(String valorACambiar, String datoNuevo, Usuario user) {
         Optional<Usuario> usuarioExistente = userRepository.findByUser(user.getId());

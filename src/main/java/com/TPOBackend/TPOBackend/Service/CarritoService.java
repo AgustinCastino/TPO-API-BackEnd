@@ -30,6 +30,9 @@ public class CarritoService {
         Carrito carrito = this.encontrarCarrito();
         Producto producto = productRepository.findById(idProducto).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
+        if(cantidad > producto.getStock()){
+            throw new Exception("El producto " + producto.getNombre() + " tiene stock insuficiente.");
+        }
         // Me fijo si el producto ya está en el carrito
         CarritoItem carritoItem = carrito.getItems()
                 .stream()
