@@ -33,14 +33,14 @@ public class CarritoController {
         return ResponseEntity.ok("Agregado");
     }
 
-    @PostMapping("/eliminar/{idProducto}")
+    @DeleteMapping("/eliminar/{idProducto}")
     public ResponseEntity eliminarProducto(@PathVariable("idProducto") int idProducto) throws Exception{
         carritoService.eliminarProducto(idProducto);
         return ResponseEntity.ok("eliminar");
     }
 
 
-    @PostMapping("/vaciar")
+    @DeleteMapping("/vaciar")
     public ResponseEntity vaciarCarrito() throws Exception{
         carritoService.vaciarCarrito();
         return ResponseEntity.ok("Vaciado");
