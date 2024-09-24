@@ -11,6 +11,7 @@ import org.springframework.transaction.jta.UserTransactionAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -29,5 +30,8 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
 
 
 
+
+    @Query("SELECT c FROM Usuario c WHERE c.id = ?1")
+    Optional<Usuario> findByUser(int user_id);
 
 }
