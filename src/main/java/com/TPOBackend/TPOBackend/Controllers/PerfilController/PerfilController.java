@@ -60,5 +60,4 @@ public class PerfilController {
         return ResponseEntity.ok(user);
     }
 
-    
  }

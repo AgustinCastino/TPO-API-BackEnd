@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +24,6 @@ public class UsuarioService {
     private  PasswordEncoder passwordEncoder;
     private AuthenticationService authenticationService;
     private UserMapper userMapper;
-    private CarritoRepository carritoRepository;
 
 
     public void cambiarPassword(CambioContrasenaDTO request) throws Exception {

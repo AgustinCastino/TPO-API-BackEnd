@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/catalogo")
 public class CatalogoProductoController {
 
-        @Autowired
+    @Autowired
     private ProductoService productoService;
 
     
