@@ -44,23 +44,16 @@ public class UsuarioService {
     }
 
 
-    public boolean cambiarDato(String valorACambiar, String datoNuevo, Usuario user) {
+    public boolean editarPerfil(String nombre, String mail, String apellido, Usuario user) {
         Optional<Usuario> usuarioExistente = userRepository.findByUser(user.getId());
 
         if (usuarioExistente.isPresent()) {
             Usuario usuario = usuarioExistente.get();
-            switch (valorACambiar) {
-                case "Nombre":
-                    usuario.setNombre(datoNuevo);
-                    break;
-                case "Apellido":
-                    usuario.setApellido(datoNuevo);
-                    break;
-                case "Mail":
-                    usuario.setMail(datoNuevo);
-                    break;
 
-            }
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setMail(mail);
+
             this.userRepository.save(usuario);
             return true;
         }
