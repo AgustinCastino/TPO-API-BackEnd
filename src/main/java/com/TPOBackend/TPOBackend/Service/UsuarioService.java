@@ -84,22 +84,32 @@ public class UsuarioService {
         return usuarioDTOs;
     }
 
-    public boolean agregarFavorito(int producto_id) {
+    public boolean agregarFavorito(Producto producto) {
         Usuario usuario = authenticationService.getUsuarioAutenticado();
-        Optional<Producto> productoExistente = productoRepository.findById(producto_id);
+
+        Optional<Producto> productoExistente = productoRepository.findById(producto.getId());
         if (productoExistente.isEmpty()) {
+            System.out.println("El producto no existe en la base de datos");
             return false;
-        }else if (!usuario.getFavoritos().contains(productoExistente)) {
-            Producto producto = productoExistente.get();
-            List<Producto> favoritos = usuario.getFavoritos();
-            favoritos.add(producto);
-            usuario.setFavoritos(favoritos);
-            userRepository.save(usuario);
-            return true;
         }
 
-        return false;
+        if (usuario.getFavoritos().contains(productoExistente.get())) {
+            System.out.println("El producto ya está en favoritos");
+            return false;
+        }
+
+        usuario.getFavoritos().add(productoExistente.get());
+        userRepository.save(usuario);
+        System.out.println("Producto agregado a favoritos correctamente");
+        return true;
     }
+
+    public List<Producto> obtenerFavUser(){
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        List<Producto> prods = user.getFavoritos();
+        return prods;
+    }
+
 
     // public boolean eliminarFavorito (int producto_id) {
     //     Usuario usuario = authenticationService.getUsuarioAutenticado();

@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,6 +24,8 @@ public class GestionUsuarioController {
 
     @Autowired
     private AuthenticationService service;
+
+
 
 
     @GetMapping("admin/listaUsers")
@@ -84,12 +87,18 @@ public class GestionUsuarioController {
     }
 
     @PostMapping("/agregar_fav")
-    public ResponseEntity agregarFavorito(@RequestBody int producto_id) throws Exception {
-        if (usuarioService.agregarFavorito(producto_id)){
+    public ResponseEntity agregarFavorito(@RequestBody Producto producto) throws Exception {
+        if (usuarioService.agregarFavorito(producto)){
             return ResponseEntity.ok("Producto agregado a favoritos");
         } else {
             return ResponseEntity.badRequest().body("Producto ya en favoritos o hubo un error");
         }
+    }
+
+    @GetMapping("/listaFavoritos")
+    public ResponseEntity obtenerFavoritos() throws Exception {
+        List<Producto> fav = usuarioService.obtenerFavUser();
+        return ResponseEntity.ok(fav);
     }
 
     // @PutMapping("/eliminar_fav")
