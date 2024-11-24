@@ -1,6 +1,6 @@
 package com.TPOBackend.TPOBackend.Service;
 
-import com.TPOBackend.TPOBackend.Repository.CarritoRepository;
+import com.TPOBackend.TPOBackend.Repository.ProductRepository;
 import com.TPOBackend.TPOBackend.Repository.Entity.*;
 import com.TPOBackend.TPOBackend.Repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ public class UsuarioService {
     private  PasswordEncoder passwordEncoder;
     private AuthenticationService authenticationService;
     private UserMapper userMapper;
-    private CarritoRepository carritoRepository;
+    private ProductRepository productoRepository;
 
 
     public void cambiarPassword(CambioContrasenaDTO request) throws Exception {
@@ -84,5 +84,45 @@ public class UsuarioService {
         return usuarioDTOs;
     }
 
+    public boolean agregarFavorito(Producto producto) {
+        Usuario usuario = authenticationService.getUsuarioAutenticado();
+
+        Optional<Producto> productoExistente = productoRepository.findById(producto.getId());
+        if (productoExistente.isEmpty()) {
+            System.out.println("El producto no existe en la base de datos");
+            return false;
+        }
+
+        if (usuario.getFavoritos().contains(productoExistente.get())) {
+            System.out.println("El producto ya está en favoritos");
+            return false;
+        }
+
+        usuario.getFavoritos().add(productoExistente.get());
+        userRepository.save(usuario);
+        System.out.println("Producto agregado a favoritos correctamente");
+        return true;
+    }
+
+    public List<Producto> obtenerFavUser(){
+        Usuario user = authenticationService.getUsuarioAutenticado();
+        List<Producto> prods = user.getFavoritos();
+        return prods;
+    }
+
+
+    // public boolean eliminarFavorito (int producto_id) {
+    //     Usuario usuario = authenticationService.getUsuarioAutenticado();
+    //     Optional<Usuario> usuarioExistente = userRepository.findByUser(usuario.getId());
+    //     if (usuarioExistente.isPresent()) {
+    //         Usuario user = usuarioExistente.get();
+    //         List<Producto> favoritos = user.getFavoritos();
+    //         favoritos.remove(producto);
+    //         user.setFavoritos(favoritos);
+    //         userRepository.save(user);
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 }

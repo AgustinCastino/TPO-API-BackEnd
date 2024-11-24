@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
 @Entity
@@ -26,6 +29,9 @@ public class Producto {
     private boolean favorito;
     private boolean visto;
     private boolean destacado;
+    @ManyToMany(mappedBy = "favoritos")
+    @JsonIgnore  // Evita la serialización de la relación usuariosFavoritos
+    private List<Usuario> usuariosFavoritos = new ArrayList<>();
 
     public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, Categoria categoria, String descripcion, boolean destacado) {
         this.nombre = nombre;
@@ -39,6 +45,7 @@ public class Producto {
         this.favorito = false;
         this.visto = false;
         this.destacado = destacado;
+        
      /*deberia ir la busqueda del usuario para asociarlo al producto*/
 
     }

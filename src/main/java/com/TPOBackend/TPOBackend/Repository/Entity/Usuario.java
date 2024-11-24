@@ -31,9 +31,13 @@ public class Usuario implements UserDetails {
     private String nombre;
     private String apellido;
     private Role rol;
-
-
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "usuario_favoritos", // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "usuario_id"), // Llave foránea para Usuario
+            inverseJoinColumns = @JoinColumn(name = "producto_id") // Llave foránea para Producto
+    )
+    private List<Producto> favoritos;
     public Usuario (){}
     
 
@@ -45,6 +49,7 @@ public class Usuario implements UserDetails {
         this.nombre = nombre;
         this.apellido = apellido;
         this.rol = rol;
+        this.favoritos = new ArrayList<Producto>();
     }
 
     @Override
@@ -80,5 +85,9 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public void setFavoritos(List<Producto> favoritos){
+        this.favoritos = favoritos;
     }
 }
