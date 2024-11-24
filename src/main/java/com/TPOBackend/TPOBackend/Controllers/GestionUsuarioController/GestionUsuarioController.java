@@ -59,6 +59,7 @@ public class GestionUsuarioController {
     public ResponseEntity<Usuario> getUsuarioLogueado() {
         try {
             Usuario usuario = service.getUsuarioAutenticado();
+            System.out.println("----------" + usuario.getId());
             if (usuario == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Retorna 404 si el usuario no está autenticado
             }
@@ -83,22 +84,22 @@ public class GestionUsuarioController {
     }
 
     @PostMapping("/agregar_fav")
-    public ResponseEntity agregarFavorito(@RequestBody Producto producto) throws Exception {
-        if (usuarioService.agregarFavorito(producto)){
+    public ResponseEntity agregarFavorito(@RequestBody int producto_id) throws Exception {
+        if (usuarioService.agregarFavorito(producto_id)){
             return ResponseEntity.ok("Producto agregado a favoritos");
         } else {
             return ResponseEntity.badRequest().body("Producto ya en favoritos o hubo un error");
         }
     }
 
-    @PutMapping("/eliminar_fav")
-    public ResponseEntity eliminarFavorito(@RequestBody Producto producto) throws Exception {
-        if (usuarioService.eliminarFavorito(producto)){
-            return ResponseEntity.ok("Producto eliminado de favoritos");
-        } else {
-            return ResponseEntity.badRequest().body("Producto no encontrado en favoritos o hubo un error");
-        }
-    }
+    // @PutMapping("/eliminar_fav")
+    // public ResponseEntity eliminarFavorito(@RequestBody int producto_id) throws Exception {
+    //     if (usuarioService.eliminarFavorito(producto_id)){
+    //         return ResponseEntity.ok("Producto eliminado de favoritos");
+    //     } else {
+    //         return ResponseEntity.badRequest().body("Producto no encontrado en favoritos o hubo un error");
+    //     }
+    // }
 
 
     private boolean validoRegistro(String mail, String contrasena, String nombreUsuario) {

@@ -31,15 +31,13 @@ public class Usuario implements UserDetails {
     private String nombre;
     private String apellido;
     private Role rol;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "usuario_favoritos",
-        joinColumns = @JoinColumn(name = "usuario_id"),
-        inverseJoinColumns = @JoinColumn(name = "producto_id")
+            name = "usuario_favoritos", // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "usuario_id"), // Llave foránea para Usuario
+            inverseJoinColumns = @JoinColumn(name = "producto_id") // Llave foránea para Producto
     )
     private List<Producto> favoritos;
-
     public Usuario (){}
     
 
