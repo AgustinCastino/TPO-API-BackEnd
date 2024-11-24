@@ -82,6 +82,24 @@ public class GestionUsuarioController {
 
     }
 
+    @PostMapping("/agregar_fav")
+    public ResponseEntity agregarFavorito(@RequestBody Producto producto) throws Exception {
+        if (usuarioService.agregarFavorito(producto)){
+            return ResponseEntity.ok("Producto agregado a favoritos");
+        } else {
+            return ResponseEntity.badRequest().body("Producto ya en favoritos o hubo un error");
+        }
+    }
+
+    @PutMapping("/eliminar_fav")
+    public ResponseEntity eliminarFavorito(@RequestBody Producto producto) throws Exception {
+        if (usuarioService.eliminarFavorito(producto)){
+            return ResponseEntity.ok("Producto eliminado de favoritos");
+        } else {
+            return ResponseEntity.badRequest().body("Producto no encontrado en favoritos o hubo un error");
+        }
+    }
+
 
     private boolean validoRegistro(String mail, String contrasena, String nombreUsuario) {
         return mail.matches("^[A-Za-z0-9]+[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$") && contrasena.length() >= 8 && !nombreUsuario.isEmpty() ;

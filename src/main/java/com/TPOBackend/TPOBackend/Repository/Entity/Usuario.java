@@ -32,7 +32,13 @@ public class Usuario implements UserDetails {
     private String apellido;
     private Role rol;
 
-
+    @ManyToMany
+    @JoinTable(
+        name = "usuario_favoritos",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private List<Producto> favoritos;
 
     public Usuario (){}
     
@@ -45,6 +51,7 @@ public class Usuario implements UserDetails {
         this.nombre = nombre;
         this.apellido = apellido;
         this.rol = rol;
+        this.favoritos = new ArrayList<Producto>();
     }
 
     @Override
@@ -80,5 +87,9 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public void setFavoritos(List<Producto> favoritos){
+        this.favoritos = favoritos;
     }
 }

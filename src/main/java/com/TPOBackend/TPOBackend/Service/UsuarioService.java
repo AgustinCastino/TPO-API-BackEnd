@@ -84,5 +84,33 @@ public class UsuarioService {
         return usuarioDTOs;
     }
 
+    public boolean agregarFavorito(Producto producto) {
+        Usuario usuario = authenticationService.getUsuarioAutenticado();
+        Optional<Usuario> usuarioExistente = userRepository.findByUser(usuario.getId());
+        if (usuarioExistente.isPresent()) {
+            Usuario user = usuarioExistente.get();
+            List<Producto> favoritos = user.getFavoritos();
+            
+            favoritos.add(producto);
+            user.setFavoritos(favoritos);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean eliminarFavorito (Producto producto) {
+        Usuario usuario = authenticationService.getUsuarioAutenticado();
+        Optional<Usuario> usuarioExistente = userRepository.findByUser(usuario.getId());
+        if (usuarioExistente.isPresent()) {
+            Usuario user = usuarioExistente.get();
+            List<Producto> favoritos = user.getFavoritos();
+            favoritos.remove(producto);
+            user.setFavoritos(favoritos);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
 
 }
