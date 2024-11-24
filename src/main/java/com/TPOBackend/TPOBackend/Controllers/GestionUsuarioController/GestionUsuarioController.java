@@ -55,6 +55,23 @@ public class GestionUsuarioController {
 
     }
 
+    @GetMapping("/getUser")
+    public ResponseEntity<Usuario> getUsuarioLogueado() {
+        try {
+            Usuario usuario = service.getUsuarioAutenticado();
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Retorna 404 si el usuario no está autenticado
+            }
+            return ResponseEntity.ok(usuario);
+        } catch (Exception e) {
+            // Maneja el error y devuelve una respuesta 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+
+
     @PutMapping("/actualizar")
     public ResponseEntity actualizar(@RequestBody CambioContrasenaDTO cambioContrasenaDTO) throws Exception {
         if(cambioContrasenaDTO.getContrasenaNueva().length()<8){
@@ -73,6 +90,7 @@ public class GestionUsuarioController {
     private boolean validoInicioSesion(String mail, String contrasena) {
         return mail.matches("^[A-Za-z0-9]+[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$") && contrasena.length() >= 8;
     }
+
 
 
 }
