@@ -7,7 +7,8 @@ public class OrdenMapper {
     public OrdenDTO toDTO(Orden orden) {
         return OrdenDTO.builder()
                 .items(orden.getItems())
-                .fechaTransaccion(orden.getFechaTransaccion()).
+                .fechaTransaccion(orden.getFechaTransaccion())
+                .precio_total(orden.getPrecioTotal()).
                 build();
     }
 }
