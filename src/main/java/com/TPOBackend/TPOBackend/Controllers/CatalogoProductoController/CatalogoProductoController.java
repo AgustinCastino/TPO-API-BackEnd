@@ -41,24 +41,7 @@ public class CatalogoProductoController {
         return new ResponseEntity<>(productoService.obtenerProducto(id).get(), HttpStatus.OK);
     }
 
-    //funcion para traer todos los productos favoritos
-    @GetMapping("/productos/favoritos")
-    public ResponseEntity<List<Producto>> getProductosFavoritos() {
-        return new ResponseEntity<>(productoService.getProductosFavoritos(), HttpStatus.OK);
-    }
 
-
-    //funcion para traer todos los productos por vistos
-    @GetMapping("/productos/vistos")
-    public ResponseEntity<List<Producto>> getProductosVistos() {
-        return new ResponseEntity<>(productoService.getProductosVistos(), HttpStatus.OK);
-    }
-
-    //funcion para traer todos los productos destacados
-    @GetMapping("/productos/destacados")
-    public ResponseEntity<List<Producto>> getProductosDestacados() {
-        return new ResponseEntity<>(productoService.getProductosDestacados(), HttpStatus.OK);
-    }
     @GetMapping("/productos/filter")
     public List<Producto> filterProducts(
             @RequestParam(required = false) String nombre,
