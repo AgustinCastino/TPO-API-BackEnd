@@ -33,26 +33,32 @@ public class CarritoService {
         if(cantidad > producto.getStock()){
             throw new Exception("El producto " + producto.getNombre() + " tiene stock insuficiente.");
         }
-        // Me fijo si el producto ya está en el carrito
-        CarritoItem carritoItem = carrito.getItems()
+
+        Optional<CarritoItem> carritoItemOpt = carrito.getItems()
                 .stream()
                 .filter(item -> item.getProducto().getId() == idProducto)
-                .findFirst().orElse(new CarritoItem());
+                .findFirst();
 
-        //Si ese producto no está, creo una línea para ese producto
-        if (carritoItem.getProducto() == null) {
-            carritoItem.setCarrito(carrito);
-            carritoItem.setProducto(producto);
-            carritoItem.setCantidad(cantidad);
-            carritoItem.setPrecioUnidad(producto.getPrecio());
-        }else { // Si el producto ya está, aumento su cantidad
+        if (carritoItemOpt.isPresent()) {
+            // Si el producto ya está, aumentar la cantidad y actualizar el precio total
+            CarritoItem carritoItem = carritoItemOpt.get();
             carritoItem.setCantidad(carritoItem.getCantidad() + cantidad);
+            carritoItem.setPrecioTotal(); // Recalcular precio total
+        } else {
+            // Si el producto no está, crear un nuevo CarritoItem
+            CarritoItem nuevoItem = new CarritoItem();
+            nuevoItem.setCarrito(carrito);
+            nuevoItem.setProducto(producto);
+            nuevoItem.setCantidad(cantidad);
+            nuevoItem.setPrecioUnidad(producto.getPrecio());
+            nuevoItem.setPrecioTotal(); // Calcular precio total
+            carrito.addItem(nuevoItem); // Vincularlo al carrito
         }
+        carrito.actualizarPrecioTotal();
 
-        carritoItem.setPrecioTotal();
-        carrito.addItem(carritoItem);
-        carritoItemRepository.save(carritoItem);
+        // Guardar cambios
         carritoRepository.save(carrito);
+
     }
 
     public void eliminarProducto(long idProducto) throws Exception{

@@ -38,6 +38,7 @@ public class Carrito {
 
     public void actualizarPrecioTotal(){
         double precioTotal = 0;
+        
         for(CarritoItem item:items) {
             precioTotal = precioTotal + item.getPrecioTotal();
         }
