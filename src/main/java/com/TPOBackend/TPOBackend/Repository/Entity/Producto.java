@@ -27,16 +27,12 @@ public class Producto {
     private String marca;
     private Categoria categoria;
     private String descripcion;
-    private boolean favorito;
-    private boolean visto;
-    private boolean destacado;
+    @ManyToMany(mappedBy = "favoritos")
+    @JsonIgnore  // Evita la serialización de la relación usuariosFavoritos
+    private List<Usuario> usuariosFavoritos = new ArrayList<>();
+    private String imagen;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Favorito> favoritos = new ArrayList<>();
-
-
-    public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, Categoria categoria, String descripcion, boolean destacado) {
+    public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, Categoria categoria, String descripcion, boolean destacado, String imagen) {
         this.nombre = nombre;
         this.liga = liga;
         this.equipo = equipo;
@@ -45,9 +41,7 @@ public class Producto {
         this.stock = stock;
         this.categoria = categoria;
         this.descripcion = descripcion;
-        this.favorito = false;
-        this.visto = false;
-        this.destacado = destacado;
+        this.imagen = imagen;
         
      /*deberia ir la busqueda del usuario para asociarlo al producto*/
 
