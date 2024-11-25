@@ -1,5 +1,6 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,9 +30,11 @@ public class Producto {
     private boolean favorito;
     private boolean visto;
     private boolean destacado;
-    @ManyToMany(mappedBy = "favoritos")
-    @JsonIgnore  // Evita la serialización de la relación usuariosFavoritos
-    private List<Usuario> usuariosFavoritos = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorito> favoritos = new ArrayList<>();
+
 
     public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, Categoria categoria, String descripcion, boolean destacado) {
         this.nombre = nombre;

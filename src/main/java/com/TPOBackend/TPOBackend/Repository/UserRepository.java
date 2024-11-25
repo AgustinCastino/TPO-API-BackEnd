@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.jta.UserTransactionAdapter;
 
 import java.util.ArrayList;
@@ -25,11 +26,6 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("select u from Usuario u where (u.nombreUsuario = ?1 OR u.mail = ?1)")
     Optional<Usuario> findByIdentificador(String identificador);
-
-
-
-
-
 
     @Query("SELECT c FROM Usuario c WHERE c.id = ?1")
     Optional<Usuario> findByUser(int user_id);
