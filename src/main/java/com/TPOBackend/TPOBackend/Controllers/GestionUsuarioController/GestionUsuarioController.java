@@ -101,14 +101,16 @@ public class GestionUsuarioController {
         return ResponseEntity.ok(fav);
     }
 
-    // @PutMapping("/eliminar_fav")
-    // public ResponseEntity eliminarFavorito(@RequestBody int producto_id) throws Exception {
-    //     if (usuarioService.eliminarFavorito(producto_id)){
-    //         return ResponseEntity.ok("Producto eliminado de favoritos");
-    //     } else {
-    //         return ResponseEntity.badRequest().body("Producto no encontrado en favoritos o hubo un error");
-    //     }
-    // }
+    @DeleteMapping("/eliminarFavorito/{id}")
+    public ResponseEntity eliminarFavorito(@PathVariable int id) throws Exception {
+        boolean eliminado = usuarioService.eliminarFavorito(id);
+
+        if (eliminado) {
+            return ResponseEntity.ok("Producto eliminado de favoritos correctamente.");
+        } else {
+            return ResponseEntity.badRequest().body("El producto no se encuentra en favoritos.");
+        }
+    }
 
 
     private boolean validoRegistro(String mail, String contrasena, String nombreUsuario) {
