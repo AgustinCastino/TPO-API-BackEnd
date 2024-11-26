@@ -1,10 +1,7 @@
 package com.TPOBackend.TPOBackend.Service;
 
 import com.TPOBackend.TPOBackend.Controllers.GestionUsuarioController.config.JwtService;
-import com.TPOBackend.TPOBackend.Repository.Entity.AuthenticationResponse;
-import com.TPOBackend.TPOBackend.Repository.Entity.RegisterRequest;
-import com.TPOBackend.TPOBackend.Repository.Entity.Usuario;
-import com.TPOBackend.TPOBackend.Repository.Entity.UsuarioInicioSesion;
+import com.TPOBackend.TPOBackend.Repository.Entity.*;
 import com.TPOBackend.TPOBackend.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,34 +42,34 @@ public class AuthenticationService {
                         .mail(request.getEmail())
                         .contrasena(passwordEncoder.encode(request.getPassword()))
                         .fechaNacimiento(request.getFechaNacimiento())
-                        .rol(request.getRole())
+                        .rol(request.getRole() != null ? request.getRole() : Role.USER)
                         .build();
 
                 repository.save(user);
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
-                                .accessToken(jwtToken)
-                                .build();
+                        .accessToken(jwtToken)
+                        .build();
         }
 
         public AuthenticationResponse authenticate(UsuarioInicioSesion request) {
 
                 authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(
-                                                request.getEmail(),
-                                                request.getPassword()));
+                        new UsernamePasswordAuthenticationToken(
+                                request.getEmail(),
+                                request.getPassword()));
 
                 var user = repository.findByMail(request.getEmail())
-                                .orElseThrow();
+                        .orElseThrow();
 
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
-                                .accessToken(jwtToken)
-                                .build();
+                        .accessToken(jwtToken)
+                        .build();
 
         }
 
         public Usuario getUsuarioAutenticado() {
                 return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-         }
+        }
 }

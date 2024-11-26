@@ -1,5 +1,6 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +28,7 @@ public class Producto {
     private Categoria categoria;
     private String descripcion;
     @ManyToMany(mappedBy = "favoritos")
-    @JsonIgnore  // Evita la serialización de la relación usuariosFavoritos
+    @JsonIgnore
     private List<Usuario> usuariosFavoritos = new ArrayList<>();
     private String imagen;
 
@@ -41,7 +42,7 @@ public class Producto {
         this.categoria = categoria;
         this.descripcion = descripcion;
         this.imagen = imagen;
-        
+
      /*deberia ir la busqueda del usuario para asociarlo al producto*/
 
     }

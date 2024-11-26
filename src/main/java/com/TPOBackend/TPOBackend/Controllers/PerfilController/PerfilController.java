@@ -30,23 +30,6 @@ public class PerfilController {
     @Autowired  
     private AuthenticationService authenticationService;
 
-    @PutMapping("/editar_datos")
-    public ResponseEntity editarDatos(@RequestBody ActualizarDatosDTO request) {
-
-        ResponseEntity validacion = request.validarDatos();
-        if (validacion != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validacion.getBody());
-        }else{
-            String nombre = request.getNombre();
-            String mail = request.getMail();
-            String apellido = request.getApellido();
-            Usuario user = authenticationService.getUsuarioAutenticado();
-
-            usuarioService.editarPerfil(nombre, mail, apellido, user);
-
-            return ResponseEntity.ok(true);
-        }
-    }
 
 
     @GetMapping("/historial_compras")

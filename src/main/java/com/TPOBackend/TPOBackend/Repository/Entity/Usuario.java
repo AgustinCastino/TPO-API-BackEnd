@@ -1,5 +1,7 @@
 package com.TPOBackend.TPOBackend.Repository.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,10 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
@@ -31,15 +30,12 @@ public class Usuario implements UserDetails {
     private String nombre;
     private String apellido;
     private Role rol;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "usuario_favoritos", // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "usuario_id"), // Llave foránea para Usuario
-            inverseJoinColumns = @JoinColumn(name = "producto_id") // Llave foránea para Producto
-    )
-    private List<Producto> favoritos;
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true,  fetch = FetchType.EAGER)
+    private List<Favorito> favoritos = new ArrayList<>();
+
     public Usuario (){}
-    
+
 
     public Usuario(String nombreUsuario, String mail, String contrasena, Date fechaNacimiento, String nombre, String apellido, Role rol) {
         this.nombreUsuario = nombreUsuario;
@@ -49,7 +45,6 @@ public class Usuario implements UserDetails {
         this.nombre = nombre;
         this.apellido = apellido;
         this.rol = rol;
-        this.favoritos = new ArrayList<Producto>();
     }
 
     @Override
@@ -87,7 +82,5 @@ public class Usuario implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public void setFavoritos(List<Producto> favoritos){
-        this.favoritos = favoritos;
-    }
+
 }
