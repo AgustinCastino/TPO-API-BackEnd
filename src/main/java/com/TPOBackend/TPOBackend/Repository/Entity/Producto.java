@@ -26,9 +26,9 @@ public class Producto {
     private String marca;
     private Categoria categoria;
     private String descripcion;
-    @ManyToMany(mappedBy = "favoritos")
-    @JsonIgnore  // Evita la serialización de la relación usuariosFavoritos
-    private List<Usuario> usuariosFavoritos = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorito> favoritos = new ArrayList<>();
     private String imagen;
 
     public Producto(String nombre,String liga, String equipo,String marca, double precio, int stock, Categoria categoria, String descripcion, boolean destacado, String imagen) {
