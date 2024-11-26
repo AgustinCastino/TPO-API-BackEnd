@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 public class OrdenMapper {
     public OrdenDTO toDTO(Orden orden) {
         return OrdenDTO.builder()
+                .id(orden.getId())
                 .items(orden.getItems())
-                .fechaTransaccion(orden.getFechaTransaccion()).
+                .fechaTransaccion(orden.getFechaTransaccion())
+                .precio_total(orden.getPrecioTotal()).
                 build();
     }
 }

@@ -3,6 +3,7 @@ package com.TPOBackend.TPOBackend.Controllers.GestionProductoController;
 import com.TPOBackend.TPOBackend.Repository.Entity.Producto;
 import com.TPOBackend.TPOBackend.Repository.Entity.ProductoDTO;
 import com.TPOBackend.TPOBackend.Repository.ProductRepository;
+import com.TPOBackend.TPOBackend.Service.OrdenItemService;
 import com.TPOBackend.TPOBackend.Service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class GestionProductoController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired  
+    private OrdenItemService OrdenItemService;
 
     // Listar Productos
     @GetMapping
@@ -106,6 +110,9 @@ public class GestionProductoController {
         return ResponseEntity.ok(producto);
     }
 
-
-
+    @GetMapping("/management/orden/{id}")
+    public ResponseEntity<List<Producto>> productosPorOrden(@PathVariable int id) {
+        List<Producto> productos = OrdenItemService.listarOrdenItems(id);
+        return ResponseEntity.ok(productos);
+    }
 }
