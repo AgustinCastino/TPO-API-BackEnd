@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrdenDTO {
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
+    private Integer id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private List<OrdenItem> items;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
