@@ -1,5 +1,6 @@
 package com.TPOBackend.TPOBackend.Service;
 
+import com.TPOBackend.TPOBackend.Repository.FavoritoRepository;
 import com.TPOBackend.TPOBackend.Repository.ProductRepository;
 import com.TPOBackend.TPOBackend.Repository.Entity.*;
 import com.TPOBackend.TPOBackend.Repository.UserRepository;
@@ -23,10 +24,16 @@ public class UsuarioService {
 
     @Autowired
     private  UserRepository userRepository;
+    @Autowired
     private  PasswordEncoder passwordEncoder;
+    @Autowired
     private AuthenticationService authenticationService;
+    @Autowired
     private UserMapper userMapper;
+    @Autowired
     private ProductRepository productoRepository;
+    @Autowired
+    private FavoritoRepository favoritoRepository;
 
 
     public void cambiarPassword(CambioContrasenaDTO request) throws Exception {
@@ -43,7 +50,6 @@ public class UsuarioService {
         return listaUsuarios;
     }
 
-
     public boolean editarPerfil(String nombre, String mail, String apellido, Usuario user) {
         Optional<Usuario> usuarioExistente = userRepository.findByUser(user.getId());
 
@@ -54,6 +60,30 @@ public class UsuarioService {
             usuario.setApellido(apellido);
             usuario.setMail(mail);
 
+            this.userRepository.save(usuario);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean cambiarDato(String valorACambiar, String datoNuevo, Usuario user) {
+        Optional<Usuario> usuarioExistente = userRepository.findByUser(user.getId());
+
+        if (usuarioExistente.isPresent()) {
+            Usuario usuario = usuarioExistente.get();
+            switch (valorACambiar) {
+                case "Nombre":
+                    usuario.setNombre(datoNuevo);
+                    break;
+                case "Apellido":
+                    usuario.setApellido(datoNuevo);
+                    break;
+                case "Mail":
+                    usuario.setMail(datoNuevo);
+                    break;
+
+            }
             this.userRepository.save(usuario);
             return true;
         }
@@ -86,36 +116,59 @@ public class UsuarioService {
             return false;
         }
 
-        if (usuario.getFavoritos().contains(productoExistente.get())) {
+        // Verifica si el producto ya está en favoritos
+        Optional<Favorito> favoritoExistente = favoritoRepository.findByUsuarioAndProducto(usuario, productoExistente.get());
+        if (favoritoExistente.isPresent()) {
             System.out.println("El producto ya está en favoritos");
             return false;
         }
 
-        usuario.getFavoritos().add(productoExistente.get());
-        userRepository.save(usuario);
+        // Crear una nueva relación de favorito
+        Favorito favorito = new Favorito();
+        favorito.setUsuario(usuario);
+        favorito.setProducto(productoExistente.get());
+
+        favoritoRepository.save(favorito);
+
         System.out.println("Producto agregado a favoritos correctamente");
         return true;
     }
 
-    public List<Producto> obtenerFavUser(){
-        Usuario user = authenticationService.getUsuarioAutenticado();
-        List<Producto> prods = user.getFavoritos();
-        return prods;
+
+    public List<Producto> obtenerFavUser() {
+        Usuario usuario = authenticationService.getUsuarioAutenticado();
+
+        // Buscar todos los favoritos del usuario
+        List<Favorito> favoritos = favoritoRepository.findByUsuario(usuario);
+
+        // Extraer los productos de los favoritos
+        List<Producto> productos = favoritos.stream()
+                .map(Favorito::getProducto)
+                .collect(Collectors.toList());
+
+        return productos;
     }
 
 
-    // public boolean eliminarFavorito (int producto_id) {
-    //     Usuario usuario = authenticationService.getUsuarioAutenticado();
-    //     Optional<Usuario> usuarioExistente = userRepository.findByUser(usuario.getId());
-    //     if (usuarioExistente.isPresent()) {
-    //         Usuario user = usuarioExistente.get();
-    //         List<Producto> favoritos = user.getFavoritos();
-    //         favoritos.remove(producto);
-    //         user.setFavoritos(favoritos);
-    //         userRepository.save(user);
-    //         return true;
-    //     }
-    //     return false;
-    // }
+
+    public boolean eliminarFavorito(int id) {
+        Usuario usuario = authenticationService.getUsuarioAutenticado();
+
+        // Verifica si el producto existe en la base de datos
+        Optional<Producto> productoExistente = productoRepository.findById(id);
+        if (productoExistente.isEmpty()) {
+            System.out.println("El producto no existe en la base de datos");
+            return false;
+        }
+
+        Producto productoToRemove = productoExistente.get();
+
+        favoritoRepository.deleteByUsuarioAndProducto(usuario.getId(), productoToRemove.getId());
+        return true;
+    }
+
+
+
+
 
 }
